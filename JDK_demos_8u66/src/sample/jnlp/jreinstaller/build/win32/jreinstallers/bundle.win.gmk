@@ -1,0 +1,53 @@
+#
+# @(#)bundle.win.gmk	1.8 02/04/23
+#
+# Makefile that builds a J2RE bundle for Windows platform.
+# This is not factored, since the Windows size need an
+# additional native library to do reboot check
+#
+
+#
+# Arguments
+#
+# Source files:
+#
+# J2RE_BIN      : Path to J2RE installer
+# J2RE_LICENSE  : Path to licensing agreement
+# J2RE_JNLP     : Path to JNLP file
+#
+# Target files:
+#
+# J2RE_INST_JAR : Name of installer JAR file
+# J2RE_DATA_JAR : Name of data JAR file
+# J2RE_NATIVE_JAR : Name of data JAR file
+# J2RE_BUNDLE   : Name of bundle to bundle everything up in
+#
+
+bundle: $(BINDIR)/$(J2RE_NATIVE_JAR) $(BINDIR)/$(J2RE_DATA_JAR) $(BINDIR)/$(J2RE_INST_JAR)
+	$(CP) $(RESOURCESDIR)/$(VERSION_FILE) $(BINDIR)/version.xml
+	$(RM) -f $(BINDIR)/version.xml
+
+#
+# Win Intaller native part
+#
+NATIVE_SRCDIR = ../../../src/win32/jreinstallers
+FILES_c=WindowsInstaller.c versionChecker.c
+FILES_cpp=registry.cpp
+FILES_o = $(FILES_c:%.c=$(BINDIR)/%.o) $(FILES_cpp:%.cpp=$(BINDIR)/%.o)
+NATIVE_DLL = j2re-installer.dll
+
+$(BINDIR)/$(J2RE_NATIVE_JAR): $(BINDIR) $(BINDIR)/$(NATIVE_DLL)
+	$(JAR) cvf $(BINDIR)/$(J2RE_NATIVE_JAR) -C $(BINDIR) $(NATIVE_DLL)
+ifdef SIGNING
+	$(JARSIGNER) -keystore $(CACERTS) -storepass $(PASSWD) -verbose $(BINDIR)/$(J2RE_NATIVE_JAR) $(ALIAS)
+endif
+
+$(BINDIR)/$(NATIVE_DLL): $(FILES_o)
+	$(LINK) -dll -out:$(BINDIR)/$(NATIVE_DLL) $(FILES_o) user32.lib version.lib advapi32.lib
+	@$(call binary_file_verification,$@)
+
+$(BINDIR)/%.o: $(NATIVE_SRCDIR)/%.c
+	$(CC) /I$(SDK_12)/include /I$(SDK_12)/include/win32 -c -o $(BINDIR) -Fo$@ $?
+
+$(BINDIR)/%.o: $(NATIVE_SRCDIR)/%.cpp
+	$(CC) /I$(SDK_12)/include /I$(SDK_12)/include/win32 -c -o $(BINDIR) -Fo$@ $?

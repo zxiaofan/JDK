@@ -1,0 +1,62 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to you under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="StyleSheet" href="../csfull.css" type="text/css" media="screen">
+<title>Scores Demo</title>
+</head>
+<body>
+<h1 class="Title">Scores Demo</h1>
+<p>The <code><i>DERBY_HOME</i>/demo/programs/scores</code> directory contains a
+demo application which shows how you can run user-written Java code inside the
+Derby database.</p>
+<p>To see the Ant targets that enable you to build and run the demo application,
+cd to this directory and type the following command:</p>
+<pre>
+   ant -projecthelp
+</pre>
+<p>Follow the instructions in the command output. You may need to download the
+Jakarta Commons Math library from the Apache web site. After customizing a
+property, you will use the <code>ant run</code> command to run the
+application.</p>
+<p>The demo shows you how to do the following:</p>
+<ul>
+<li>Declare Java functions and procedures and run them inside the Derby
+   engine</li>
+<li>Load the Derby engine with jar files of user-written code</li>
+<li>Enforce data consistency by wiring functions into CREATE TABLE
+   statements</li>
+<li>Run a Java procedure from a TRIGGER</li>
+<li>Improve query performance by wiring filtering functions into the
+   WHERE clause</li>
+<li>Format query output by wiring functions into the SELECT list</li>
+<li>Re-use off-the-shelf packages to write your own custom data aggregator</li>
+</ul>
+<p>For more detail, please consult the following sections of the <i>Derby
+Developer's Guide</i>:</p>
+<ul>
+<li>"Loading classes from a database"</li>
+<li>"Derby server-side programming"</li>
+</ul>
+<hr>
+<p class=NavBarVersion>Last updated for Apache Derby Version 10.11</p>
+</body>
+</html>
+
+

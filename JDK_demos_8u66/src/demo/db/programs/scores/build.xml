@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to you under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+
+<project default="compile" basedir=".">
+  <description>
+	Driver for building and running the Scores demo. To invoke these
+	ant targets, you should customize the properties defined in
+	customizeMe.properties.
+
+  </description>
+
+<!--
+===================================================================
+==
+== Declare variables.
+==
+===================================================================
+-->
+
+  <property file="customizeMe.properties"/>
+
+  <property name="scores.client.source" value="${basedir}/java/client"/>
+  <property name="scores.common.source" value="${basedir}/java/common"/>
+  <property name="scores.server.source" value="${basedir}/java/server"/>
+
+  <property name="scores.base.classes" value="${basedir}/classes"/>
+  <property name="scores.client.classes" value="${scores.base.classes}/client"/>
+  <property name="scores.server.classes" value="${scores.base.classes}/server"/>
+
+  <property name="scores.jars" value="${basedir}/jars"/>
+  <property name="scores.client.jar" value="${scores.jars}/scores-client.jar"/>
+  <property name="scores.server.jar" value="${scores.jars}/scores-server.jar"/>
+
+  <property name="scores.database" value="${basedir}/database"/>
+
+  <path id="scores.client.compile.classpath">
+    <pathelement location="${scores.client.classes}"/>
+    <pathelement path="${derby.lib}/derbytools.jar"/>
+  </path>
+
+  <path id="scores.server.compile.classpath">
+    <pathelement location="${scores.server.classes}"/>
+    <pathelement path="${math.library}"/>
+  </path>
+
+  <path id="scores.runtime.classpath">
+    <pathelement path="${scores.client.jar}"/>
+    <pathelement path="${derby.lib}/derby.jar"/>
+    <pathelement path="${derby.lib}/derbytools.jar"/>
+  </path>
+
+<!--
+===================================================================
+==
+== Setup and teardown targets.
+==
+===================================================================
+-->
+
+  <target
+    name="clean"
+    description="Remove all build artifacts. Does not remove the database."
+  >
+
+    <delete dir="${scores.base.classes}"/>
+    <delete dir="${scores.jars}"/>
+
+  </target>
+
+  <target
+    name="clobber"
+	depends="clean"
+    description="Remove the database and all build artifacts."
+  >
+
+    <delete dir="${scores.database}"/>
+
+  </target>
+
+  <!-- Basic setup. -->
+  <target
+    name="-init"
+  >
+
+    <mkdir dir="${scores.base.classes}"/>
+    <mkdir dir="${scores.client.classes}"/>
+    <mkdir dir="${scores.server.classes}"/>
+    <mkdir dir="${scores.jars}"/>
+    <mkdir dir="${scores.database}"/>
+
+  </target>
+
+<!--
+===================================================================
+==
+== Build targets.
+==
+===================================================================
+-->
+
+  <target
+    name="compile"
+	depends="-compile-client, -compile-server"
+    description="Compile all classes."
+  />
+
+  <!-- Compile client classes. -->
+  <target
+    name="-compile-client"
+	depends="-init"
+  >
+
+    <javac
+      srcdir="${scores.common.source}"
+      destdir="${scores.client.classes}"
+	>
+      <classpath refid="scores.client.compile.classpath"/>
+    </javac>
+
+    <javac
+      srcdir="${scores.client.source}"
+      destdir="${scores.client.classes}"
+	>
+      <classpath refid="scores.client.compile.classpath"/>
+    </javac>
+
+  </target>
+
+  <!-- Compile server classes. -->
+  <target
+    name="-compile-server"
+	depends="-init"
+  >
+
+    <javac
+      srcdir="${scores.common.source}"
+      destdir="${scores.server.classes}"
+	>
+      <classpath refid="scores.server.compile.classpath"/>
+    </javac>
+
+    <javac
+      srcdir="${scores.server.source}"
+      destdir="${scores.server.classes}"
+	>
+      <classpath refid="scores.server.compile.classpath"/>
+    </javac>
+
+  </target>
+
+  <target
+    name="buildjars"
+	depends="compile"
+    description="Build jar files."
+  >
+
+    <jar destfile="${scores.client.jar}"
+         basedir="${scores.client.classes}"
+    />
+
+    <jar destfile="${scores.server.jar}"
+         basedir="${scores.server.classes}"
+    />
+
+  </target>
+
+<!--
+===================================================================
+==
+== Execution targets.
+==
+===================================================================
+-->
+
+  <target
+    name="run"
+	depends="buildjars"
+    description="Run the Scores application."
+  >
+
+    <java
+      classname="org.apache.derbyDemo.scores.app.Scores"
+	>
+      <classpath refid="scores.runtime.classpath"/>
+	  <sysproperty key="derby.system.home" value="${scores.database}"/>
+
+      <arg value="${scores.server.jar}"/>
+      <arg value="${math.library}"/>
+    </java>
+
+  </target>
+
+</project>

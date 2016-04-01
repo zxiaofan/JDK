@@ -1,0 +1,470 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+<META http-equiv="CONTENT-TYPE" content="text/html; charset=iso-8859-1">
+<TITLE>toursdb_readme.htm</TITLE>
+<link rel="stylesheet" type="text/css" href="../csfull.css" title="toursdb">
+</HEAD>
+<BODY>
+
+<META name="CREATED" content="20051031;9095275">
+<META name="CHANGED" content="20051031;9274086">
+
+<H1>
+<A NAME="top"></A>Derby Example and Demo Database toursdb</FONT></H1>
+<H2><FONT SIZE="5">1. Introduction</FONT></H2>
+<P> This document describes some aspects of the Derby Example and demo database toursdb. 
+<H2><FONT SIZE="5">2. Purpose of the database toursdb</FONT></H2>
+<P>The toursdb is provided as an example and demo database to illustrate some functionality of the Derby RDBMS. Many of the examples in the Derby documentation use tables that exist in the toursdb database. 
+<P>The toursdb database is created, and can be recreated using the files in &lt;your derby install directory&gt;/demo/programs if you have an installation that includes these. 
+<P>The built database is placed in &lt;your derby install directory&gt;/demo/databases. 
+<H2><FONT SIZE="5">3. The toursdb schema</FONT></H2>
+<P>The toursdb schema is the default schema, 'APP'. 
+<P>The toursdb tables are: 
+<BR>(Note: in the following tables no description is given where the columnname is deemed to be explanation enough.) <BR CLEAR="LEFT">
+<A HREF="#AIRLINES">AIRLINES</A> <BR CLEAR="LEFT">
+<A HREF="#COUNTRIES">COUNTRIES</A> <BR CLEAR="LEFT">
+<A HREF="#CITIES">CITIES</A> <BR CLEAR="LEFT">
+<A HREF="#FLIGHTS">FLIGHTS</A> <BR CLEAR="LEFT">
+<A HREF="#FLIGHTAVAILABILITY">FLIGHTAVAILABILITY</A> <BR CLEAR="LEFT">
+<A HREF="#MAPS">MAPS</A> <BR CLEAR="LEFT">
+<A HREF="#FLIGHTS_HISTORY">FLIGHTS_HISTORY</A> 
+<P>Constraints and Indices are listed underneath the respective tables.
+<P><A HREF="#TRIGGERS">TRIGGERS</A> 
+<P><A NAME="AIRLINES"></A>The AIRLINES table provides information about airline
+companies.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>AIRLINES table</caption>
+	<TR>
+		<TH id="c11" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c21" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c31" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">AIRLINE  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">CHAR(2)  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">Airline company code 
+		                              <p>PK, not null</p></TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">AIRLINE_FULL  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">VARCHAR(24)  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">Full name of Airline company  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">BASIC_RATE  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">DOUBLE_PRECISION  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">Basic rate for flying with this airline  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">DISTANCE_DISCOUNT  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">DOUBLE PRECISION  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">Discount for larger distances  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">BUSINESS_LEVEL_FACTOR  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">DOUBLE PRECISION  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">Percentage addition for business class cost</TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">FIRSTCLASS_LEVEL_FACTOR  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">DOUBLE PRECISION  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">Percentage addition for first class cost  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">ECONOMY_SEATS  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">No. of economy seats  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">BUSINESS_SEATS  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">No. of business seats  </TD></TR>
+
+	<TR>
+		<TD headers="c11" ALIGN="LEFT" VALIGN="TOP">FIRSTCLASS_SEATS  </TD>
+		<TD headers="c21" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c31" ALIGN="LEFT" VALIGN="TOP">No. of first class seats  </TD></TR>
+
+</TABLE>
+
+<P>CONSTRAINTS: <BR CLEAR="LEFT">
+
+
+<pre>  constraint AIRLINES_PK AIRLINE Primary Key</pre>
+
+<P><A NAME="COUNTRIES"></A>The COUNTRIES table provides information about the
+countries served by the airlines.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>COUNTRIES table</caption>
+	<TR>
+		<TH id="c12" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c22" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c32" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c12" ALIGN="LEFT" VALIGN="TOP">COUNTRY  </TD>
+		<TD headers="c22" ALIGN="LEFT" VALIGN="TOP">VARCHAR(26)  </TD>
+		<TD headers="c32" ALIGN="LEFT" VALIGN="TOP">Country name in English
+		                              <p>Not null</p>  </TD></TR>
+
+	<TR>
+		<TD headers="c12" ALIGN="LEFT" VALIGN="TOP">COUNTRY_ISO_CODE  </TD>
+		<TD headers="c22" ALIGN="LEFT" VALIGN="TOP">CHAR(2)  </TD>
+		<TD headers="c32" ALIGN="LEFT" VALIGN="TOP">Country code
+		                              <p>PK, not null</p>  </TD></TR>
+
+	<TR>
+		<TD headers="c12" ALIGN="LEFT" VALIGN="TOP">REGION  </TD>
+		<TD headers="c22" ALIGN="LEFT" VALIGN="TOP">VARCHAR(26)  </TD>
+		<TD headers="c32" ALIGN="LEFT" VALIGN="TOP">Region  </TD></TR>
+
+</TABLE>
+
+<P>CONSTRAINTS: <BR CLEAR="LEFT">
+
+
+<PRE>  constraint COUNTRIES_PK COUNTRY_ISO_CODE Primary Key
+  constraint COUNTRIES_UNQ_NM Unique Country 
+  constraint COUNTRIES_UC Check country_ISO_code = upper(country_ISO_code)
+</PRE>
+
+<P><A NAME="CITIES"></A>The CITIES table provides information about the cities
+served by the airlines.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>CITIES table</caption>
+	<TR>
+		<TH id="c13" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c23" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c33" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c13" ALIGN="LEFT" VALIGN="TOP">CITY_ID &nbsp;  </TD>
+		<TD headers="c23" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c33" ALIGN="LEFT" VALIGN="MIDDLE">PK, not null </TD></TR>
+
+	<TR>
+		<TD headers="c13" ALIGN="LEFT" VALIGN="TOP">CITY_NAME  </TD>
+		<TD headers="c23" ALIGN="LEFT" VALIGN="TOP">VARCHAR(24)  </TD>
+		<TD headers="c33" ALIGN="LEFT" VALIGN="MIDDLE">Not null </TD></TR>
+
+	<TR>
+		<TD headers="c13" ALIGN="LEFT" VALIGN="TOP">COUNTRY  </TD>
+		<TD headers="c23" ALIGN="LEFT" VALIGN="TOP">VARCHAR(26)  </TD>
+		<TD headers="c33" ALIGN="LEFT" VALIGN="MIDDLE">Not null  </TD></TR>
+
+	<TR>
+		<TD headers="c13" ALIGN="LEFT" VALIGN="TOP">AIRPORT  </TD>
+		<TD headers="c23" ALIGN="LEFT" VALIGN="TOP">VARCHAR(3)  </TD>
+		<TD headers="c33" ALIGN="LEFT" VALIGN="MIDDLE">Airport code  </TD></TR>
+
+	<TR>
+		<TD headers="c13" ALIGN="LEFT" VALIGN="TOP">LANGUAGE  </TD>
+		<TD headers="c23" ALIGN="LEFT" VALIGN="TOP">VARCHAR(16)  </TD>
+		<TD headers="c33" ALIGN="LEFT" VALIGN="MIDDLE">&nbsp;  </TD></TR>
+
+	<TR>
+		<TD headers="c13" ALIGN="LEFT" VALIGN="TOP">COUNTRY_ISO_CODE  </TD>
+		<TD headers="c23" ALIGN="LEFT" VALIGN="TOP">CHAR(2)  </TD>
+		<TD headers="c33" ALIGN="LEFT" VALIGN="MIDDLE">FK   </TD></TR>
+
+</TABLE>
+
+<P>CONSTRAINTS: <BR CLEAR="LEFT">
+
+
+<PRE>  constraint CITIES_PK CITY_ID Primary Key 
+  constraint COUNTRIES_FK Foreign Key COUNTRY_ISO_CODE references 
+       COUNTRIES.COUNTRY_ISO_CODE
+</PRE>
+
+<P><A NAME="FLIGHTS"></A>The FLIGHTS table provides information about airline
+flights.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>FLIGHTS table</caption>
+	<TR>
+		<TH id="c14" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c24" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c34" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">FLIGHT_ID  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">CHAR(6)  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="MIDDLE">PK, not null </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">SEGMENT_NUMBER  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Number for segment of a flight
+		                              <p>PK, not null</p>  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">ORIG_AIRPORT  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">CHAR(3)  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Airport where flight originates  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">DEPART_TIME  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">TIME  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Scheduled departure time  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">DEST_AIRPORT  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">CHAR(3)  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Destination airport  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">ARRIVE_TIME  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">TIME  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Scheduled arrival time  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">MEAL  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">CHAR(1)  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Indicator for type of meals available:<BR CLEAR="LEFT">
+B - Breakfast<BR CLEAR="LEFT">
+L - Lunch<BR CLEAR="LEFT">
+D - Dinner<BR CLEAR="LEFT">
+S - Snack  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">FLYING_TIME  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">DOUBLE PRECISION  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Scheduled duration of flight  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">MILES  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Length of flight  </TD></TR>
+
+	<TR>
+		<TD headers="c14" ALIGN="LEFT" VALIGN="TOP">AIRCRAFT  </TD>
+		<TD headers="c24" ALIGN="LEFT" VALIGN="TOP">VARCHAR(6)  </TD>
+		<TD headers="c34" ALIGN="LEFT" VALIGN="TOP">Type of aircraft  </TD></TR>
+
+</TABLE>
+
+<P>CONSTRAINTS: <BR CLEAR="LEFT">
+
+
+<PRE>  constraint FLIGHTS_PK FLIGHT_ID,SEGMENT_NUMBER Primary Key
+  constraint MEAL_CONSTRAINT Check meal IN ('B', 'L', 'D', 'S') </PRE>
+
+<P>INDICES: <BR CLEAR="LEFT">
+
+
+<PRE>  index DESTINDEX on FLIGHTS (DEST_AIRPORT)
+  index ORIGINDEX on FLIGHTS (ORIG_AIRPORT) </PRE>
+
+<P><A NAME="FLIGHTAVAILABILITY"></A>The FLIGHTAVAILABILITY table provides
+information about the availability of flights.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>FLIGHTAVAILABILITY table</caption>
+	<TR>
+		<TH id="c15" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c25" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c35" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c15" ALIGN="LEFT" VALIGN="TOP">FLIGHT_ID  </TD>
+		<TD headers="c25" ALIGN="LEFT" VALIGN="TOP">CHAR(6)  </TD>
+		<TD headers="c35" ALIGN="LEFT" VALIGN="MIDDLE">PK, not null  </TD></TR>
+
+	<TR>
+		<TD headers="c15" ALIGN="LEFT" VALIGN="TOP">SEGMENT_NUMBER  </TD>
+		<TD headers="c25" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c35" ALIGN="LEFT" VALIGN="MIDDLE">Number for segment of a flight
+		                                 <p>PK, not null</p> </TD></TR>
+
+	<TR>
+		<TD headers="c15" ALIGN="LEFT" VALIGN="TOP">FLIGHT_DATE  </TD>
+		<TD headers="c25" ALIGN="LEFT" VALIGN="TOP">DATE  </TD>
+		<TD headers="c35" ALIGN="LEFT" VALIGN="MIDDLE">Date on which the flight takes place
+				                 <p>PK, not null</p> </TD></TR>
+
+	<TR>
+		<TD headers="c15" ALIGN="LEFT" VALIGN="TOP">ECONOMY_SEATS_TAKEN  </TD>
+		<TD headers="c25" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c35" ALIGN="LEFT" VALIGN="MIDDLE">Default is 0 </TD></TR>
+
+	<TR>
+		<TD headers="c15" ALIGN="LEFT" VALIGN="TOP">BUSINESS_SEATS_TAKEN  </TD>
+		<TD headers="c25" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c35" ALIGN="LEFT" VALIGN="MIDDLE">Default is 0 </TD></TR>
+
+	<TR>
+		<TD headers="c15" ALIGN="LEFT" VALIGN="TOP">FIRSTCLASS_SEATS_TAKEN  </TD>
+		<TD headers="c25" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c35" ALIGN="LEFT" VALIGN="MIDDLE">Default is 0 </TD></TR>
+
+</TABLE>
+
+<P>CONSTRAINTS: <BR CLEAR="LEFT">
+
+
+<PRE>  constraint FLIGHT_AVAILABILITY_PK FLIGHT_ID, SEGMENT_NUMBER, FLIGHT_DATE Primary Key
+  constraint FLIGHTS_FK2 Foreign Key FLIGHT_ID,SEGMENT_NUMBER references
+       FLIGHTS. FLIGHT_ID, SEGMENT_NUMBER </PRE>
+
+<P><A NAME="MAPS"></A>The MAPS table provides information about flight maps.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>MAPS table</caption>
+	<TR>
+		<TH id="c16" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c26" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c36" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c16" ALIGN="LEFT" VALIGN="TOP">MAP_ID  </TD>
+		<TD headers="c26" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c36" ALIGN="LEFT" VALIGN="MIDDLE">Not null, generated always as identity (start with 1, increment by 1)</TD></TR>
+
+	<TR>
+		<TD headers="c16" ALIGN="LEFT" VALIGN="TOP">MAP_NAME  </TD>
+		<TD headers="c26" ALIGN="LEFT" VALIGN="TOP">VARCHAR(24)  </TD>
+		<TD headers="c36" ALIGN="LEFT" VALIGN="MIDDLE">Not null </TD></TR>
+
+	<TR>
+		<TD headers="c16" ALIGN="LEFT" VALIGN="TOP">REGION  </TD>
+		<TD headers="c26" ALIGN="LEFT" VALIGN="TOP">VARCHAR(26)  </TD>
+		<TD headers="c36" ALIGN="LEFT" VALIGN="MIDDLE">&nbsp;  </TD></TR>
+
+	<TR>
+		<TD headers="c16" ALIGN="LEFT" VALIGN="TOP">AREA   </TD>
+		<TD headers="c26" ALIGN="LEFT" VALIGN="MIDDLE">DECIMAL(8,4) </TD>
+		<TD headers="c36" ALIGN="LEFT" VALIGN="MIDDLE">Not null </TD></TR>
+
+	<TR>
+		<TD headers="c16" ALIGN="LEFT" VALIGN="TOP">PHOTO_FORMAT  </TD>
+		<TD headers="c26" ALIGN="LEFT" VALIGN="TOP">VARCHAR(26)  </TD>
+		<TD headers="c36" ALIGN="LEFT" VALIGN="MIDDLE">Not null </TD></TR>
+
+	<TR>
+		<TD headers="c16" ALIGN="LEFT" VALIGN="TOP">PICTURE  </TD>
+		<TD headers="c26" ALIGN="LEFT" VALIGN="TOP">BLOB(102400)  </TD>
+		<TD headers="c36" ALIGN="LEFT" VALIGN="MIDDLE">&nbsp;  </TD></TR>
+
+</TABLE>
+
+<P>CONSTRAINTS: <BR CLEAR="LEFT">
+
+
+<PRE>  constraint Unique MAP_ID, MAP_NAME </PRE>
+
+<P><A NAME="FLIGHTS_HISTORY"></A>The FLIGHTS_HISTORY table provides information
+about archived flights.</p>
+<TABLE BORDER="1" BORDERCOLOR="#000000" CELLSPACING="0" CELLPADDING="4" WIDTH="100%">
+<caption>FLIGHTS_HISTORY table</caption>
+	<TR>
+		<TH id="c17" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">ColumnName  </TD>
+		<TH id="c27" WIDTH="33%" ALIGN="LEFT" VALIGN="TOP">DataType  </TD>
+		<TH id="c37" WIDTH="34%" ALIGN="LEFT" VALIGN="TOP">Description  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">FLIGHT_ID  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">CHAR(6)  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="MIDDLE">Not null </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">SEGMENT_NUMBER  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Number for segment of a flight
+		                              <p>Not null</p>  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">ORIG_AIRPORT  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">CHAR(3)  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Airport where flight originates  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">DEPART_TIME  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">TIME  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Scheduled departure time  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">DEST_AIRPORT  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">CHAR(3)  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Destination airport  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">ARRIVE_TIME  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">TIME  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Scheduled arrival time  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">MEAL  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">CHAR(1)  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Indicator for type of meals available:<BR CLEAR="LEFT">
+B - Breakfast<BR CLEAR="LEFT">
+L - Lunch<BR CLEAR="LEFT">
+D - Dinner<BR CLEAR="LEFT">
+S - Snack  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">FLYING_TIME  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">DOUBLE PRECISION  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Scheduled duration of flight  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">MILES  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">INTEGER  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Length of flight  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">AIRCRAFT  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">VARCHAR(6)  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Type of aircraft  </TD></TR>
+
+	<TR>
+		<TD headers="c17" ALIGN="LEFT" VALIGN="TOP">STATUS  </TD>
+		<TD headers="c27" ALIGN="LEFT" VALIGN="TOP">VARCHAR(20)  </TD>
+		<TD headers="c37" ALIGN="LEFT" VALIGN="TOP">Code indicating which trigger created the record  </TD></TR>
+
+</TABLE>
+
+<P><A NAME="TRIGGERS"></A>TRIGGERS: </p>
+
+<PRE>  TRIG1 
+
+    after update on FLIGHTS 
+    referencing old as UPDATEDROW 
+    for each row 
+    insert into FLIGHTS_HISTORY values ( 
+    UPDATEDROW.FLIGHT_ID, 
+    UPDATEDROW.SEGMENT_NUMBER, 
+    UPDATEDROW.ORIG_AIRPORT, 
+    UPDATEDROW.DEPART_TIME,
+    UPDATEDROW.DEST_AIRPORT,
+    UPDATEDROW.ARRIVE_TIME,
+    UPDATEDROW.MEAL, 
+    UPDATEDROW.FLYING_TIME, 
+    UPDATEDROW.MILES,
+    UPDATEDROW.AIRCRAFT, 
+    'INSERTED FROM TRIG1');
+
+  TRIG2 
+
+    after delete on FLIGHTS 
+    for each statement 
+    insert into FLIGHTS_HISTORY (STATUS) values ('INSERTED FROM TRIG2'); 
+</PRE>
+
+</BODY>
+
+</HTML>

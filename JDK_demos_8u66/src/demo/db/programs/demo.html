@@ -1,0 +1,75 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD><META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>Example Programs</TITLE>
+<link rel="stylesheet" type="text/css" href="csfull.css" title="sample">
+</HEAD>
+<BODY>
+
+<H1>Example Apache Derby Programs</H1>
+<p>In this distribution of Apache Derby, the directory
+<em class="fileName">demo/programs/</em> contains example databases and programs
+written in Java. Some of the sample programs are used as references in some of
+the Derby user manuals,
+see <A href="../../docs/html/getstart/index.html"><i>Getting Started with Derby</i></A> and 
+the <A href="../../docs/html/adminguide/index.html"><i>Derby Server and Administration Guide</i></A>.
+Other programs are simply demonstrations of how to get started using Derby,
+or how to utilize certain features.</p>
+<UL>
+<LI><A href="simple/example.html">Simple</A>
+        <p class="BodyRelative">A very simple JDBC application that boots the driver,
+        creates a database, and loads some data. This application can run in both
+        embedded and client/server settings.</p>
+</LI>
+<LI><A href="nserverdemo/readme.html">Network Server Sample Programs</A>
+	<p class="BodyRelative">Two examples are provided to demonstrate how to obtain an <em class="Emphasis">embedded connection</em> 
+and <em class="Emphasis">client connections</em> using the Network Server to connect to the same database. 
+An embedded connection is a connection to a database that is booted in the same JVM as the application. 
+Client applications that require a database connection across the network use the network server protocol (DRDA) 
+to connect to the Network Server. This type of connection is referred to as a client connection.</p></LI>
+<LI><A href="toursdb/toursdb_readme.html">ToursDB sample database schema</a>
+    <p class="BodyRelative">The <code>toursdb</code> database is provided as an example and demo database to illustrate some 
+functionality of the Derby RDBMS. Many of the examples in the Derby
+documentation use tables that exist in the <code>toursdb</code> database. 
+The document describes the tables, the names and types of columns in those tables, and the constraints, indexes, and triggers in the database.
+    </p>
+</li>
+<LI><A href="workingwithderby/readme.html">Getting Started With Derby</A>
+        <p class="BodyRelative">Programs described and modified as part of the activities documented in 
+the <A href="../../docs/html/getstart/index.html"><i>Getting Started With Derby</i></A> manual.</p>
+</LI>
+<LI><A href="scores/README" type="text/plain">Scores</A>
+<p class="BodyRelative">
+This demo shows how to use user-coded Java
+functions and procedures inside the Derby engine.
+</p>
+</LI>
+<LI><A href="vtis/README.html">VTIs</A>
+<p class="BodyRelative">This set of demos contains sample table functions for
+<ul>
+<li>Making a table out of a property file</li>
+<li>Making tables out of Subversion logs, Apache web server logs, and
+JIRA reports</li>
+</ul>
+</p>
+</LI>
+</UL>
+
+</BODY>
+</HTML>

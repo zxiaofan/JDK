@@ -1,0 +1,121 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to you under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="StyleSheet" href="../csfull.css" type="text/css" media="screen">
+<title>Table Functions Demo</title>
+</head>
+<body>
+<h1 class="Title">Table Functions Demo</h1>
+<p>The <code><i>DERBY_HOME</i>/demo/programs/vtis</code> directory contains
+sample table functions.</p>
+<p>This code is now built as part of the standard Derby build.
+To build the API documentation, invoke the <code>demodocs</code> target in the
+top-level build script.</p>
+<p>An <code>.sql</code> script, <code>sql/demoFileVtis.sql</code>, is provided
+to test-drive these table functions. Use Derby's <code>ij</code> tool to run
+this script. The script needs to be customized as explained in its header.</p>
+<p>This script exercises the following table functions:</p>
+<ul>
+<li><code>PropertyFileVTI</code> - a table function for presenting a property
+file as a table</li>
+<li><code>ApacheServerLogVTI</code> - an example of an
+<code>org.apache.derby.vti.XmlVTI</code> which makes a table out of an Apache
+web server log</li>
+<li><code>DerbyJiraReportVTI</code> - an example of an
+<code>org.apache.derby.vti.XmlVTI</code> which makes a table out of a JIRA
+report</li>
+<li><code>SubversionLogVTI</code> - a table function for making a table from the
+output of the <code>svn log</code> command</li>
+</ul>
+
+<h2 class="Heading2"><a id="runembedded" name="runembedded">How to run this sample application in an embedded environment</a>
+</h2>
+<p>
+This demo relies on the Derby embedded JDBC driver and the interactive
+ij tool (used for issuing SQL):
+</p>
+
+<table class="listing">
+  <tr>
+    <td class="listItem">Class name:</td>
+    <td class="listItem"><em class="javaObject">org.apache.derby.jdbc.EmbeddedDriver</em></td>
+  </tr>
+  <tr>
+    <td class="listItem">Library:</td>
+    <td class="listItem"><em class="fileName">derby.jar</em></td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<table class="listing">
+  <tr>
+    <td class="listItem">Class name:</td>
+    <td class="listItem"><em class="javaObject">org.apache.derby.tools.ij</em></td>
+  </tr>
+  <tr>
+    <td class="listItem">Library:</td>
+    <td class="listItem"><em class="fileName">derbytools.jar</em></td>
+  </tr>
+</table>
+
+<p>&nbsp;</p>
+
+<ol class="decimal">
+  <li class="Normal">Open a command window.
+  <li class="Normal">If you haven't set it already on a system-wide basis, set
+  the <var class="envVar">DERBY_HOME</var> environment variable to the location
+  of this Derby installation. This is not strictly required to run the demo, but
+  this environment variable will be used later on this page to refer to the
+  required Derby resources, files, etc. Examples:
+    <p class="BodyRelative">UNIX (ksh/bash)</p>
+    <p class="commandLine">export DERBY_HOME=/home/user/derby/db-derby-10.x.y.z-bin</p>
+    <p class="BodyRelative">Windows:</p>
+    <p class="commandLine">set DERBY_HOME=c:\programs\derby\db-derby-10.x.y.z-bin</p>
+  <li class="Normal">Change directory to the <em class="fileName">$DERBY_HOME/demo/programs/vtis</em> directory.
+  <li class="Normal">In the command window, set the CLASSPATH to include the
+  current directory (the location of <em class="fileName">demoFileVtis.sql</em>),
+  Derby's embedded driver library (<em class="fileName">derby.jar</em>),
+  and Derby's tool library (<em class="fileName">derbytools.jar</em>).
+  (You may skip this step and provide the classpath as an option to the JVM
+  launch command instead, refer to your JVM's documentation for details).
+    <p class="BodyRelative">This may be done as follows:</p>
+    <p class="BodyRelative">UNIX (ksh/bash):</p>
+    <p class="commandLine">export CLASSPATH=.:${DERBY_HOME}/lib/derby.jar:${DERBY_HOME}/lib/derbytools.jar</p>
+    <p class="BodyRelative">WINDOWS:</p>
+    <p class="commandLine">set CLASSPATH=.;%DERBY_HOME%\lib\derby.jar;%DERBY_HOME%\lib\derbytools.jar</p>
+  <li class="Normal">Once you have your environment set up correctly, execute
+    the demo from the same directory (<em class="fileName">demo/programs/vtis</em>):
+    <p class="CommandLine">java org.apache.derby.tools.ij demoFileVtis.sql</p>
+    <p class="BodyRelative">A successful run produces many pages of SQL
+  commands and query results.</p>
+    <p class="BodyRelative">
+      If any error messages appear, and you are unable to resolve the error(s),
+      ask for help on the derby-user
+      <a href="http://db.apache.org/derby/derby_mail.html" target="_new">mailing list</a>.
+    </p>
+</ol>
+
+
+
+
+
+</body>
+</html>

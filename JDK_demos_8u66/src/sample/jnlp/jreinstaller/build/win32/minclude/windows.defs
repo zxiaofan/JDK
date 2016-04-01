@@ -1,0 +1,16 @@
+
+CC             = cl
+# Uses default SDK for build
+TOP_DIR        = ../..
+SDK_12         = c:/jdk1.2.2/
+BINDIR_12      = $(SDK_12)/bin/
+MKDIR          = mkdir
+RM             = rm
+CP             = cp
+CHMOD	       = chmod
+EXEDIR         = $(BUILDDIR)/exe
+CLASSPATH_SEP  = ;
+C_FLAGS	       = -nologo -O2 -Os -DWIN32 -I$(TOP_DIR)/src/share/native -I$(TOP_DIR)/src/win32/native
+LINK	       = link.exe /nologo
+TAR	       = tar
+GZIP	       = gzip

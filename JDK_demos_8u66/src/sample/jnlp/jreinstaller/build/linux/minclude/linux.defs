@@ -1,0 +1,28 @@
+# @(#)linux.defs	1.15 01/10/09
+# these are specific to Linux (RH6.1)
+
+CC             = gcc
+CPP            = gcc
+SDK_12         = /usr/local/java/jdk1.2.2RC2-K-linux/linux
+MKDIR          = mkdir
+RM             = rm
+AR             = ar
+RANLIB         = ranlib
+EXEDIR         = $(BUILDDIR)/bin
+JUMP_EXE       = $(PROTO_DIR)/javawsbin
+CLASSPATH_SEP  = :
+PATH_SEP       = /
+LIBS           = -lnsl
+MD_SRC         = $(TOPDIR)/src/solaris
+JUMPPLSO       = $(PROTO_DIR)/libjavawspl.so
+C_FLAGS	       = -I$(SHARE_SRC)/native -I$(MD_SRC)/native -DLINUX
+CC_FLAGS       = -I$(SDK_12)/include -I$(SDK_12)/include/linux -I$(SHARE_SRC)/native -I$(MD_SRC)/native -DLINUX
+TAR            = tar
+CP             = cp
+RESOURCEDIR    = resources
+CHMOD          = chmod
+PLATFORM_SRC   = $(TOPDIR)/src/linux
+UNIX_SHARE_SRC = $(TOPDIR)/src/unix
+ZIP            = /usr/bin/zip
+ZIPDASHY       = -y
+GZIP           = /bin/gzip

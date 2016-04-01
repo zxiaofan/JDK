@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+  This is ant (http://ant.apache.org) build script to build the
+  "EbayClient" sample. Either this build.xml can be used standalone 
+  with "ant" tool or can be opened as a project with NetBeans IDE
+  (http://www.netbeans.org).
+-->
+
+<project name="EbayClient" default="dist" basedir=".">
+
+    <import file="nbproject/jdk.xml"/>
+    
+
+    <target name="-prop-init">
+        <property file="user.build.properties"/>
+        <property file="build.properties"/>
+    </target>
+
+    <target name="-init" depends="-prop-init,-jdk-init"/>
+
+    <condition property="exist-gen-src">
+        <and>
+            <available file="${basedir}/src/ebay/apis" type="dir"/>
+        </and>
+    </condition>
+
+    <target name="-pre-compile" unless="exist-gen-src" depends="-init">
+        <mkdir dir="${classes.dir}"/>
+        <exec executable="${nbjdk.home}/bin/wsimport">
+            <arg line="-keep -d build/classes -p ebay.apis -s src -wsdllocation http://localhost:7070/Ebay?wsdl eBaySvc.wsdl"/>
+        </exec>
+    </target>
+    <target name="-pre-jar">
+        <mkdir dir="${classes.dir}/META-INF/wsdl"/>
+        <copy file="${basedir}/eBaySvc.wsdl" todir="${classes.dir}/META-INF/wsdl" />
+        <copy file="${basedir}/jax-ws-catalog.xml" todir="${classes.dir}/META-INF" />
+        
+    </target> 
+
+    <target name="compile" depends="-pre-compile" description="Compile main sources.">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="${deprecation}">
+            <classpath path="${cp}"/>
+        </javac>
+    </target>
+
+    <target name="jar" depends="compile, -pre-jar" description="Build JAR file for main sources.">
+        <mkdir dir="${dist.dir}" />
+        <jar jarfile="${jar}" compress="true">
+            <manifest>
+                <attribute name="Main-Class" value="${main.class}"/>
+            </manifest>
+            <fileset dir="${classes.dir}"/>
+        </jar>
+        <copy file="${basedir}/ebay.properties" todir="${dist.dir}" />
+    </target>
+
+    <target name="run" depends="jar" description="Run client.">
+        <fail unless="main.class">Must set property 'main.class' (e.g. in build.properties)</fail>
+        <java classname="${main.class}" fork="true" failonerror="true">
+            <classpath path="${run.cp}"/>
+        </java>
+    </target>
+
+    <target name="javadoc" depends="jar" description="Build Javadoc.">
+        <mkdir dir="${javadoc.dir}"/>
+        <javadoc destdir="${javadoc.dir}" useexternalfile="true">
+            <classpath path="${cp}"/>
+            <sourcepath>
+                <pathelement location="${src.dir}"/>
+            </sourcepath>
+            <fileset dir="${src.dir}"/>
+        </javadoc>
+    </target>
+
+    <target name="clean" depends="-init" description="Clean build products.">
+        <delete dir="${build.dir}"/>
+        <delete file="${jar}"/>
+        <delete dir="${dist.dir}"/>
+        <delete dir="${basedir}/src/ebay/apis"/>
+    </target>
+
+    <target name="dist" depends="javadoc"/>
+
+    <target name="profile">
+        <ant antfile="nbproject/netbeans-targets.xml" target="profile"/>
+    </target>
+
+</project>

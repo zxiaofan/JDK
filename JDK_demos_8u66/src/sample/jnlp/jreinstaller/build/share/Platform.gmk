@@ -1,0 +1,25 @@
+#
+# @(#)Platform.gmk	1.1 01/01/10
+#
+# Generic definition of PLATFORM, and related, factored-out variables
+#
+
+ifndef PLATFORM
+
+uname = $(shell uname)
+
+ifeq ($(uname), SunOS)
+PLATFORM = solaris
+endif
+
+ifeq ($(uname), Linux)
+PLATFORM = linux
+endif
+
+ifeq ($(uname), Windows_NT)
+PLATFORM = win32
+WINDOWS = 1
+endif
+
+export PLATFORM
+endif     # PLATFORM

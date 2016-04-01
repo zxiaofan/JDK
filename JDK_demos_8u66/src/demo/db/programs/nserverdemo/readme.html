@@ -1,0 +1,42 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD><META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<TITLE>Example Programs</TITLE>
+<link rel="stylesheet" type="text/css" href="../csfull.css" title="sample">
+</HEAD>
+<BODY>
+
+<H1>Overview</H1>
+<p>The following example scenarios show you how to obtain an <em class="Emphasis">embedded connection</em> and <em class="Emphasis">client connections</em> using the Network Server to connect to the same database.</p>
+
+<p>An embedded connection is a connection to a database that is booted in the same JVM as the application. The URL prefix is jdbc:derby:</p>
+
+<p>Client applications that require a database connection across the network use the network server protocol (DRDA) to connect to the Network Server. This type of connection is referred to as a client connection. The URL prefix is jdbc:derby:net:</p>
+<UL>
+</LI>
+<LI><p class="BodyRelative">First scenario: <A href="simpleserversample.html">Simple Network Server Sample</A></p>
+	<p class="BodyRelative">This example uses two programs to illustrate how a typical client program that starts up in its own JVM can connect to the Network Server that the server program starts. The client program (SimpleNetworkClientSample) and the server program (SimpleNetworkServerSample) each run in their own (different) JVMs. The example shows the Derby jar files that are needed at the client side and server side to use the Network Server. The SimpleNetworkClientSample program also shows how to use the DriverManager or a DataSource to obtain client connections.</p></LI></LI>
+</LI>
+<LI><p class="BodyRelative">Second scenario: <A href="nserverdemo.html">Network Server Demo </A></p>
+	<p class="BodyRelative">This example program (NsSample) starts the network server and shows how to obtain client and embedded connections using the Network Server to connect to the same database, all in one JVM.</p></LI></LI>
+</LI>
+</UL>
+
+</BODY>
+</HTML>

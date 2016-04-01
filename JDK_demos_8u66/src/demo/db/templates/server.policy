@@ -1,0 +1,162 @@
+//
+//   Licensed to the Apache Software Foundation (ASF) under one or more
+//   contributor license agreements.  See the NOTICE file distributed with
+//   this work for additional information regarding copyright ownership.
+//   The ASF licenses this file to You under the Apache License, Version 2.0
+//   (the "License"); you may not use this file except in compliance with
+//   the License.  You may obtain a copy of the License at
+//
+//      http://www.apache.org/licenses/LICENSE-2.0
+//
+//   Unless required by applicable law or agreed to in writing, software
+//   distributed under the License is distributed on an "AS IS" BASIS,
+//   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+//   See the License for the specific language governing permissions and
+//   limitations under the License.
+//
+
+// This template policy file gives examples of how to configure the
+// permissions needed to run a Derby network server with the Java
+// Security manager.
+//
+grant codeBase "${derby.install.url}derby.jar"
+{
+  // These permissions are needed for everyday, embedded Derby usage.
+  //
+  permission java.lang.RuntimePermission "createClassLoader";
+
+  // Next, the permission to read "derby.*" properties is granted to
+  // derby.jar. This is necessary for the engine to read derby properties.
+  permission java.util.PropertyPermission "derby.*", "read";
+
+  permission java.util.PropertyPermission "user.dir", "read";
+
+  // The next two properties are used to determine if the VM is 32 or 64 bit.
+  //
+  permission java.util.PropertyPermission "sun.arch.data.model", "read";
+  permission java.util.PropertyPermission "os.arch", "read";
+  permission java.io.FilePermission "${derby.system.home}","read";
+  permission java.io.FilePermission "${derby.system.home}${/}-",
+      "read,write,delete";
+
+  // This permission lets a DBA reload the policy file while the server is
+  // still running. The policy file is reloaded by invoking the
+  // SYSCS_UTIL.SYSCS_RELOAD_SECURITY_POLICY() system procedure.
+  //
+  permission java.security.SecurityPermission "getPolicy";
+
+  // This permission lets you backup and restore databases to and from
+  // arbitrary locations in your file system.
+  //
+  // This permission also lets you import/export data to and from arbitrary
+  // locations in your file system.
+  //
+  // You may want to restrict this access to specific directories.
+  //
+  permission java.io.FilePermission "<<ALL FILES>>", "read,write,delete";
+
+  // Permissions needed for JMX based management and monitoring.
+  //
+  // Allows this code to create an MBeanServer:
+  //
+  permission javax.management.MBeanServerPermission "createMBeanServer";
+
+  // Allows access to Derby's built-in MBeans, within the domain
+  // org.apache.derby.  Derby must be allowed to register and unregister these
+  // MBeans.  It is possible to allow access only to specific MBeans,
+  // attributes or operations. To fine tune this permission, see the javadoc of
+  // javax.management.MBeanPermission or the JMX Instrumentation and Agent
+  // Specification.
+  //
+  permission javax.management.MBeanPermission
+      "org.apache.derby.*#[org.apache.derby:*]",
+      "registerMBean,unregisterMBean";
+
+  // Trusts Derby code to be a source of MBeans and to register these in the
+  // MBean server.
+  //
+  permission javax.management.MBeanTrustPermission "register";
+
+  // getProtectionDomain is an optional permission needed for printing
+  // classpath information to derby.log
+  //
+  permission java.lang.RuntimePermission "getProtectionDomain";
+
+  //
+  // The following permission must be granted for Connection.abort(Executor) to
+  // work.  Note that this permission must also be granted to outer
+  // (application) code domains.
+  //
+  permission java.sql.SQLPermission "callAbort";
+
+  // Needed by file permissions restriction system:
+  //
+  permission java.lang.RuntimePermission "accessUserInformation";
+  permission java.lang.RuntimePermission "getFileStoreAttributes";
+};
+
+
+
+grant codeBase "${derby.install.url}derbynet.jar"
+{
+  // These permissions lets the Network Server manage connections from clients.
+
+  // Accept connections from any host. Derby is listening to the host interface
+  // specified via the -h option to "NetworkServerControl start" on the command
+  // line, via the address parameter to the
+  // org.apache.derby.drda.NetworkServerControl constructor in the API or via
+  // the property derby.drda.host; the default is localhost.  You may want to
+  // restrict allowed hosts, e.g. to hosts in a specific subdomain,
+  // e.g. "*.example.com".
+  permission java.net.SocketPermission "*", "accept";
+
+  // Allow the server to listen to the socket on the default port (1527).
+  // If you have specified another port number with the -p option to
+  // "NetworkServerControl start" on the command line, or with the portNumber
+  // parameter to the NetworkServerControl constructor in the API, or with the
+  // property derby.drda.portNumber, you should change the port number in the
+  // permission statement accordingly.
+  permission java.net.SocketPermission "localhost:1527", "listen";
+
+  // Needed for server tracing.
+  //
+  permission java.io.FilePermission "${derby.drda.traceDirectory}${/}-",
+      "read,write,delete";
+
+  // Needed by file permissions restriction system:
+  //
+  permission java.lang.RuntimePermission "accessUserInformation";
+  permission java.lang.RuntimePermission "getFileStoreAttributes";
+  permission java.util.PropertyPermission "derby.__serverStartedFromCmdLine",
+      "read, write";
+
+  // JMX: Uncomment this permission to allow the ping operation of the
+  //      NetworkServerMBean to connect to the Network Server.
+  //
+  // permission java.net.SocketPermission "*", "connect,resolve";
+
+  // Needed by sysinfo. The file permission is needed to check the existence of
+  // jars on the classpath. You can limit this permission to just the locations
+  // which hold your jar files.
+  //
+  // In this template file, this block of permissions is granted to
+  // derbynet.jar under the assumption that derbynet.jar is the first jar file
+  // in your classpath which contains the sysinfo classes. If that is not the
+  // case, then you will want to grant this block of permissions to the first
+  // jar file in your classpath which contains the sysinfo classes.  Those
+  // classes are bundled into the following Derby jar files:
+  //
+  //    derbynet.jar
+  //    derby.jar
+  //    derbyclient.jar
+  //    derbytools.jar
+  //
+  permission java.util.PropertyPermission "user.*", "read";
+  permission java.util.PropertyPermission "java.home", "read";
+  permission java.util.PropertyPermission "java.class.path", "read";
+  permission java.util.PropertyPermission "java.runtime.version", "read";
+  permission java.util.PropertyPermission "java.fullversion", "read";
+  permission java.lang.RuntimePermission "getProtectionDomain";
+  permission java.io.FilePermission "<<ALL FILES>>", "read";
+};
+

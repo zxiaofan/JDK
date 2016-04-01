@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp codebase="$$codebase">
+  <information>
+    <title>J2RE 1.4.2 Installer</title>
+    <vendor>Sun Microsystems, Inc.</vendor>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.3+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="javaws-1_0_1-j2re-1_4_2-inst-windows-i586.jar" size="38972" download="lazy"/>
+    <jar href="javaws-1_0_1-j2re-1_4_2-data-windows-i586.jar" size="13285473" download="lazy"/>
+    <property name="javaVersion"       value="1.4.2"/>
+    <property name="platformVersion"       value="1.4"/>
+    <property name="installerLocation" value="javaws-1_0_1-j2re-1_4_2-data-windows-i586.jar"/>
+    <property name="installerEntry"    value="jre.dat"/>
+    <property name="licenseEntry"      value="LICENSE"/>
+    <property name="lib"               value="j2re-installer"/>
+    <property name="msvcrt.versionMS"  value="60000"/>
+    <property name="msvcrt.versionLS"  value="20910000"/>
+    <property name="execString"        value="{0} {1}"/>
+    <property name="javaPath"          value="bin\javaw.exe"/>
+    <property name="verbose"           value="true"/>
+    <property name="isWindowsInstall"  value="true"/>
+    <nativelib href="javaws-1_0_1-j2re-1_4_2-native-windows-i586.jar" size="12253"/>
+  </resources>
+  <installer-desc main-class="jnlp.sample.JreInstaller.Main"/>
+</jnlp>
+
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir=".." name="EbayClient/file">
+    
+    <import file="../build.xml"/>
+    
+    <target name="compile-selected" depends="-init">
+        <fail unless="includes">Must set property 'includes'</fail>
+        <mkdir dir="${classes.dir}"/>
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="${debug}" deprecation="${deprecation}" includes="${includes}">
+            <classpath path="${cp}"/>
+        </javac>
+    </target>
+    
+</project>

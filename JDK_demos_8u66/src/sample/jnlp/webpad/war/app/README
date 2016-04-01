@@ -1,0 +1,11 @@
+Please put the following two files in this directory:
+
+holidays.jar
+jh.jar
+
+You can download them from http://java.sun.com/products/javahelp
+
+and rename them to:
+
+holidays__V1.0.jar
+jh__V1.0.jar

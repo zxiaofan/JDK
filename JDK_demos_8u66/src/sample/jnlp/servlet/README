@@ -1,0 +1,75 @@
+JNLPDownloadServlet
+-------------------
+
+Brief Description :
+
+JNLPDownloadServlet can be used to package a JNLP file and its associated
+resources in a Web Archive (.war) file. The purpose of the servlet is to
+provide a simple and convenient packaging format for JNLP applications, so they
+can be easily deployed in a Web Container, such as Tomcat or a J2EE-compliant
+Application Server.
+
+The download servlet supports the following features:
+
+    * Automatic installation of the codebase URL into JNLP files, thus
+      eliminating manual management of hard-coded URLs into JNLP files.
+    * Explicit specification of the timestamp for a JNLP file, independent of
+      the file-system timestamp.
+    * Support for download protocols defined in the JNLP specification v1.0.1.
+      These include basic download protocol, version-based download protocol,
+      and extension download protocol.
+    * Version-based information specified per file or per directory in the
+      Web archive. Thus, no centralized file needs to be managed for the entire
+      archive.
+    * Automatic generation of JARDiff files.
+    * pack200-gzip and gzip compression support. You can now host *.jar.pack.gz
+      or *.jar.gz files together with you original *.jar files.  If the client
+      supports the pack200-gzip or gzip file formats, the servlet will return
+      the compressed file if it is available on the server.  Java Web Start 1.5
+      supports both compression formats.
+
+The packaging support consists of one servlet: JnlpDownloadServlet. The servlet
+is packaged into the jnlp-servlet.jar file, which can be found in the SDK under
+samples/jnlp/servlet/.
+
+Files :
+
+GNUmakefile		- the makefile to build the servlet
+jnlp-servlet.jar	- the JNLPDownloadServlet binary
+jardiff.jar		- the JarDiff binary
+jnlp.jar		- the JNLP API binary
+src			- the directory containing the JNLPDownloadServlet
+                          source code
+
+Building and Deployment of Servlet :
+
+To build jnlp-servlet.jar and jardiff.jar, run gnumake in the current directory
+(servlet).
+
+The following environment variables must be set:
+
+# Environment variable CLASS_PATH should contain the path to javaws.jar (under
+# the jre/lib directory) and servlet.jar (You can download the latter from
+# http://www.oracle.com/technetwork/java/javaee/servlet/index.html,
+# or you can find it in the lib 
+# directory of any servlet container implementing the Java Servlet 2.2 
+# specification or above; e.g, Tomcat.)
+#
+# Environment variable FILE_SEPARATOR should be set: ";" on win32 and ":" on 
+# unix).
+#
+# Environment variable TMPDIR should point to the tmp directory 
+#
+# Environment variable SDK_HOME should point to the SDK directory
+
+If you are running on the windows platform, it is assumed you have the MKS 
+Toolkit installed and it is in your path environment variable.  (Commands such
+as cp, echo, mkdir, and rm are required.)
+
+The generated classes will go to the classes directory, and the resulting jar
+files will be in the lib directory by default.  You can adjust the output
+directory to anything you want by changing the GNUmakefile.
+
+Please refer to the JNLPDownloadServlet guide for more information on the
+JNLPDownloadServlet:
+http://docs.oracle.com/javase/1.5.0/docs/guide/javaws/developersguide/downloadservletguide.html

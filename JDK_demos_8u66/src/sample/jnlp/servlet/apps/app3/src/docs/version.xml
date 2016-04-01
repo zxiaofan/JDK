@@ -1,0 +1,11 @@
+<jnlp-versions>
+  <resource>
+    <pattern>
+      <name>app-lib.jar</name>
+      <version-id>2.0</version-id>
+    </pattern>
+    <file>app-lib-2.0.jar</file>
+  </resource>
+</jnlp-versions>
+
+

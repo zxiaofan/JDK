@@ -1,0 +1,235 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+  <head>
+    <title>Webservices "Ebay" Example</title>
+  </head>
+  <body>
+  
+  <h1><center>Java<font size="-1"><sup>TM</sup></font> Webservices (JAX-WS) 
+  <i>Ebay</i> Example</center></h1>
+  
+  <h2><a name="h2-Introduction">Introduction</a></h2>
+  <ul>
+  <p>The Webservices <i>Ebay</i> example is an application that shows how to use 
+  the JAX-WS API. The example shows how to access Ebay services via their
+  web service interface. To use this sample you must first register with Ebay 
+  and get the <code>appId, certId, devId and authToken </code> and put the 
+  appropriate values in the <code>ebay.properties</code> file. You can register 
+  at <a href="http://developer.ebay.com/developercenter/soap/">
+  http://developer.ebay.com/developercenter/soap/</a> to get the keys. It is recommended
+  to use the sandbox environment provided by Ebay to run the sample. First you 
+  need to create and validate a sandbox test account and then generate a 
+  single user authentication token. Also note at the time this sample was 
+  written and tested the version of <code>eBaySvc.wsdl</code> was 455. For 
+  convinience the wsdl file is bundled.
+
+  <p>The JAX-WS <i>Ebay</i> example does not however implement
+     the full fledged logic that such an application might
+     have. It implements a subset of this logic which is
+     sufficient to demonstrate common patterns and
+     solutions used when implementing a web service and
+     interface for an application with JAX-WS Technology.</p>
+      <hr>
+  <blockquote>
+    <u>Note:</u> This example was developed using <a 
+     href="http://www.netbeans.org">NetBeans 5.5 IDE</a>. The instructions
+     given in this document to build and run the example assume that
+     you have at your disposal:
+     <ul><li>either <a href="http://www.netbeans.org">NetBeans 5.5 IDE</a> and </li>
+         <li>or <a href="http://ant.apache.org/">Apache Ant 1.6.5</a> 
+         </li>
+     </ul>
+  </blockquote>
+     <hr>
+     <p></p>
+     <p><u>Table Of Contents:</u></p>
+  <p><center>[<a href="#h2-Generating">Generating&nbsp;the&nbsp;Java&nbsp;Documentation</a>]
+  [<a href="#h2-Overview">Overview&nbsp;of&nbsp;the&nbsp;<i>Ebay</i>&nbsp;Example</a>]
+  [<a href="#h2-API-Doc">API&nbsp;Documentation&nbsp;and&nbsp;Sources</a>]
+  [<a href="#h2-Running">Running&nbsp;the&nbsp;<i>Ebay</i>&nbsp;Example</a>]
+  [<a href="#h2-Conclusion">Conclusion</a>]
+  [<a href="#h2-References">References</a>]</center></p>
+
+  </ul>
+  <h2><a name="h2-Generating">Generating the Java Documentation</a></h2>
+
+    <ul>
+        <p>Before reading further, you will need to generate the 
+        Java Documentation for the example's sources.</p> The example has two 
+        parts to it - the client and the server. In the sample root directory 
+        there are two directories - <code>EbayClient</code>
+        and <code>EbayServer</code>. Run the following command in both the 
+        directories
+        <pre>ant</pre>
+        </p>
+        <p>Alternatively you can open the <code>EbayClient</code> and 
+        <code>EbayServer</code> project with the 
+           NetBeans IDE and generate the Javadoc from its <code>Build</code>
+           menu.
+        </p>
+    </ul>
+  
+  <h2><a name="h2-Overview">Overview of the <i>Ebay</i> Example</a></h2>
+  
+  <ul>
+      The Ebay sample has two parts to it - EbayClient and the EbayServer.
+      <ul>
+          <li>
+              EbayClient demonstrates how you can use a webservice client to 
+              access an ebay service - in this case to lookup an item based
+              on the item id. The client uses the <code>eBaySvc.wsdl</code> file 
+              to generate stubs and proxy classes by running the 
+              <code>wsimport</code> tool in the <code>ebay.apis</code> package 
+              that it then uses in the application to make calls to either the 
+              Ebay site or to the local server. The <code>MainGUIApp</code> class 
+              in the <code>ebay.client</code> package is the main class to run 
+              the example. The application is a  swing application that lets 
+              you select which server to query and also set
+              preferences for http proxy incase you are behind a firewall.
+              There is also a JAX-WS handler in the <code>ebay.client.handler</code>
+              package - <code>RequesterCredentials</code>. The Ebay wsdl uses
+              additional headers that is defined in the binding section of the 
+              WSDL. This concept is currently not supported by the JAX-WS 
+              implementation and hence we insert the additional header using 
+              a JAX-WS protocol handler. We use the <code>RequesterCredentials</code>
+              handler to get access to the entire soap message and then add the 
+              required soap headers to query the ebay web service.
+              <blockquote>
+              Note: When building the application you will see a lot of warnings
+              like 
+              <pre>[exec] warning: cos-nonambig: "urn:ebay:apis:eBLBaseComponents"
+              :eBayAuthToken and WC[##any] (or elements from their substitution 
+              group) violate "Unique Particle Attribution". During validation 
+              against this schema, ambiguity would be created for those two 
+              particles</pre> when the <code>wsimport</code> tool is being executed. 
+              This is because the ebay wsdl has schema definitions that cause these 
+              warnings to be generated. Note however the example will run just fine.
+              </blockquote>
+          </li>
+          <li>
+              EbayServer demonstrates how you can build a service like ebay starting 
+              from a wsdl. In general though the recommended practice for building 
+              a service is to start from Java and use annotations to define the 
+              service and then use that service to generate a wsdl file for clients
+              to use. However in this case since there might be a need to be 
+              able to access the service locally in the sample we are using the
+              same wsdl to show how you can build the service as well.  
+              The <code>eBaySvc.wsdl</code> file is used to 
+              to generate stubs and proxy classes by running the 
+              <code>wsimport</code> tool in the <code>ebay.apis</code> package 
+              that it then uses in the server side application to serve up 
+              requests. The example uses the Java SE 6 light weight web server
+              to host the endpoint. The <code>Ebay</code> class in the 
+              <code>ebay.server</code> package is the class that contains the 
+              item information. Note for the purpose of the example we have 
+              used a <code>HashMap</code> to store the information. The server
+              side example also demonstrates how you can use JAX-WS for REST
+              based web services. In Java SE 6 the web server does not have 
+              the capability to serve files from the file system. So we have 
+              implemented the <code>ImageProvider</code> service to serve up 
+              images using the REST style web services. The <code>Main</code>
+              class is the main class of the application that starts up the 
+              two endpoints to serve up the requests. When using the client with
+              the local server at this time the item id values supported are 
+              <code>1 or 9720685987, 2 or 9723025228, 3 or 9722594617 </code>
+              
+          </li>
+      </ul>
+  </ul>
+  <h2><a name="h2-API-Doc">API Documentation and Sources</a></h2>
+  <ul>
+      <p>Once generated, the Javadoc of example classes can
+      be found starting from <a href="../EbayClient/dist/javadoc/index.html"><code>
+          ../EbayClient/dist/javadoc/index.html</code></a>. and 
+          <a href="dist/javadoc/index.html"><code>
+          dist/javadoc/index.html</code></a>.</p>
+      <p>You can view the sources in the 
+      <a href="../EbayClient/src"><code>../EbayClient/src</code></a> 
+      and <a href="src"><code>src</code></a>subdirectories.</p>
+  </ul>
+
+  <h2><a name="h2-Running">Running the <i>Ebay</i> Example</a></h2>
+    <ul>
+        To run the client you need to be in the <code>EbayClient</code> directory
+        and execute the following commands:
+        <p>
+        <pre>ant run</pre>
+        </p>
+        
+        </p>
+        <p>Alternatively you can open the <code>EbayClient</code> project with the 
+           NetBeans IDE and right click on the <code>EbayClient</code> project 
+           and select <code>Run project</code>
+           
+        </p>
+        <blockquote>
+            <u>Note:</u> You can also run the <i>EbayClient</i> 
+            application directly from the <code>java</code> 
+            command line. Make sure to build the EbayClient jar
+            first. 
+            <br>On Unix systems:
+            <pre>ant jar
+cd dist
+java -jar EbayClient.jar</pre>
+            <br>On Windows systems:
+            <p><code>ant jar<br>
+cd dist
+java -jar EbayClient.jar</code></p>
+        </blockquote>
+        If you want to run the <code>EbayServer</code> so that you can access
+        the server side functionality as well on the local machine then you 
+        need to be in the <code>EbayServer</code> directory and execute the 
+        following commands:
+        <p>
+        <pre>ant run</pre>
+        </p>
+        
+        </p>
+        <p>Alternatively you can open the <code>EbayServer</code> project with the 
+           NetBeans IDE and right click on the <code>EbayServer</code> project 
+           and select <code>Run project</code>
+           
+        </p>
+        <blockquote>
+            <u>Note:</u> You can also run the <i>EbayServer</i> 
+            application directly from the <code>java</code> 
+            command line. Make sure to build the EbaySever jar
+            first. 
+            <br>On Unix systems:
+            <pre>ant jar
+cd dist
+java -jar EbayServer.jar</pre>
+            <br>On Windows systems:
+            <p><code>ant jar<br>
+cd dist
+java -jar EbayServer.jar</code></p>
+        </blockquote>
+    </ul>
+    
+    
+    <h2><a name="h2-Conclusion">Conclusion</a></h2>
+    <ul>
+    <p>
+        In this document, we have presented an advanced 
+        JAX-WS example. We have shown how you can build a client to access
+        a web service starting from a WSDL file. We have also demonstrated
+        how to use <code>Handler</code> in the client to add additional
+        information to messages. We have also demonstrated how to build a service
+        for a corresponding wsdl and how to enable REST services using JAX-WS.
+    </p>
+    </ul>
+  <h2><a name="h2-References">References</a></h2>
+  <ol>
+     <li><a href="http://java.sun.com/webservices/jaxws/index.jsp">JAX-WS
+     home page</a></li>
+     <li><a href="http://jax-ws.dev.java.net">JAX-WS java.net project</a></li>
+     <li><a href="http://java.sun.com/javase/6/docs/"
+         >Java SE 6 Documentation Index</a>: This document covers the
+          Java<sup>TM</sup> Platform, Standard Edition 6.</li>
+  </ol>
+  <p>
+  <hr>
+  <p>
+  </body>
+</html>

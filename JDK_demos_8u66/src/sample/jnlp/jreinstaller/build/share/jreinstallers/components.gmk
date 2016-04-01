@@ -1,0 +1,61 @@
+#
+# @(#)components.gmk	1.7 02/02/19
+#
+# Makefile that builds a J2RE installer parts (inst and data). This
+# is shared among all JRE bundles for all platforms
+#
+
+#
+# Arguments
+#
+# Source files:
+#
+# J2RE_BIN      : Path to J2RE installer
+# J2RE_LICENSE  : Path to licensing agreement
+# J2RE_JNLP     : Path to JNLP file
+#
+# Target files:
+#
+# J2RE_INST_JAR : Name of installer JAR file
+# J2RE_DATA_JAR : Name of data JAR file
+# J2RE_BUNDLE   : Name of bundle to bundle everything up in
+#
+
+#
+# DATA BUNDLE
+#
+
+$(BINDIR)/$(J2RE_DATA_JAR): $(BINDIR)
+	$(CP) $(J2RE_BIN) $(BINDIR)/jre.dat
+	$(JAR) cvf $(BINDIR)/$(J2RE_DATA_JAR) -C $(BINDIR) jre.dat
+	$(RM) -f $(BINDIR)/jre.dat
+ifdef SIGNING
+	$(JARSIGNER) -keystore $(CACERTS) -storepass $(PASSWD) \
+        -verbose $(BINDIR)/$(J2RE_DATA_JAR) $(ALIAS)
+endif
+	
+
+#
+# INSTALLER BUNDLE
+#
+
+# The patsubst is needed here as jar -C with a trailing / seems to
+# include the complete file (eg jar xxx -C c:/users/scott/ foo.tar puts
+# in c:/users/scott/foo.tar into the jar, vs jar xxx -C c:/users/scott foo.tar
+# which puts in foo.tar, like we want).
+# The rm -rf of the debug directory is needed as the 1.3 compiler is compiling
+# too much!
+$(BINDIR)/$(J2RE_INST_JAR): $(CLASSDESTDIR) $(BINDIR) $(FILES_class) $(FILES_propbld)
+	$(CP) $(J2RE_LICENSE) $(CLASSDESTDIR)/LICENSE
+	$(JAR) vcf $(BINDIR)/$(J2RE_INST_JAR) -C $(CLASSDESTDIR) .
+	rm -f $(CLASSDESTDIR)/LICENSE
+ifdef SIGNING
+	$(JARSIGNER) -keystore $(CACERTS) -storepass $(PASSWD) \
+        -verbose $(BINDIR)/$(J2RE_INST_JAR) $(ALIAS)       
+endif
+	
+
+clean::
+	$(RM) -rf $(CLASSDESTDIR)
+	$(RM) -rf $(BINDIR)
+	$(RM) -rf $(J2RE_BUNDLE)

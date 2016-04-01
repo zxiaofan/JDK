@@ -1,0 +1,165 @@
+<html>
+<head>
+<title>The Animator Applet</title>
+<!-- Changed by: Herb Jellinek, 18-Jun-1996 -->
+<!-- Changed by: Eric Hawkes, 22-Jan-2003 -->
+</head>
+
+<body>
+<h1>The Animator Applet</h1>
+<hr>
+The Animator applet is a general purpose animation tool.
+<p>
+
+It has these features:
+<ul>
+<li> you can specify an order to the frames, which allows you to reuse them
+<li> you can specify whether the animation repeats
+<li> you can specify a soundtrack
+<li> you can specify sounds to be played with individual frames 
+<li> you can specify the amount of time to pause between frames
+     (both on the animation as a whole and on individual frames)
+<li> you can specify a startup image to display while loading
+<li> you can specify a background image or color upon which to display the
+     animation
+<li> you can specify a position at which to display each frame
+<li> you can specify the URL of a page to visit when the user clicks on the
+animation
+<li> you can view the applet's parameters at runtime
+</ul>
+
+<p>
+Here is the <a href="Animator.java">source code</a>.  
+
+<p>
+You can get a lot of information about Animator by pressing the
+SHIFT key while clicking the mouse in an Animation.
+
+<h2>
+Tag Syntax
+</h2>
+
+<pre>
+&lt;APPLET CODE="Animator.class"
+     WIDTH="aNumber"             -- the width (in pixels) of the widest frame
+     HEIGHT="aNumber"&gt;           -- the height (in pixels) of the tallest frame
+&lt;PARAM NAME="IMAGESOURCE"
+     VALUE="aDirectory"&gt;         -- the directory that has the animation
+                                    frames (a series of pictures in GIF or JPEG
+                                    format, by default named T1.gif, T2.gif,
+                                    ...)
+&lt;PARAM NAME="STARTUP"
+     VALUE="aFile"&gt;              -- an image to display at load time
+&lt;PARAM NAME="BACKGROUND"
+     VALUE="aFile"&gt;              -- an image to paint the frames against
+&lt;PARAM NAME="BACKGROUNDCOLOR"
+     VALUE="aColor"&gt;             -- a solid color to paint the frames against
+&lt;PARAM NAME="STARTIMAGE"
+     VALUE="aNumber"&gt;            -- number of the starting frame (1..n)
+&lt;PARAM NAME="ENDIMAGE"
+     VALUE="aNumber"&gt;            -- number of the end frame (1..n)
+&lt;PARAM NAME="NAMEPATTERN"
+     VALUE="dir/prefix%N.suffix"&gt; -- a pattern to use for generating names
+                                    based on STARTIMAGE, ENDIMAGE, or IMAGES. (See
+                                    <A href="#namepattern">below</A>.)
+&lt;PARAM NAME="PAUSE"
+     VALUE="100"&gt;                -- milliseconds to pause between images
+                                    default - can be overridden by PAUSES)
+&lt;PARAM NAME="PAUSES"
+     VALUE="300|200||400|200"&gt;   -- millisecond delay per frame.  Blank
+                                    uses default PAUSE value
+&lt;PARAM NAME="REPEAT"
+     VALUE="true"&gt;               -- repeat the sequence?
+&lt;PARAM NAME="POSITIONS"
+     VALUE="100@200||200@100||200@200|100@100|105@105"&gt;
+                                 -- positions (X@Y) for each frame.  Blank
+                                    means use previous frame's position
+&lt;PARAM NAME="IMAGES"
+     VALUE="3|3|2|1|2|3|17"&gt;     -- explicit order for frames - see below
+&lt;PARAM NAME="SOUNDSOURCE"
+     VALUE="aDirectory"&gt;         -- the directory that has the audio files
+&lt;PARAM NAME="SOUNDTRACK"
+     VALUE="aFile"&gt;              -- an audio file to play throughout
+&lt;PARAM NAME="SOUNDS"
+     VALUE="aFile.au|||||bFile.au"&gt;
+				 -- audio files keyed to individual frames
+&lt;PARAM NAME="HREF"
+     VALUE="aURL"&gt;               -- The URL of the page to visit when
+                                    user clicks on the animation (if not set, 
+                                    click pauses/resumes the animation)
+&lt;PARAM NAME="TARGET"
+     VALUE="aTarget"&gt;            -- The name of a FRAME target in which
+                                    to display the document named by
+                                    HREF.  Defaults to "_top".
+&lt;/APPLET&gt;
+</pre>
+
+<h3>
+The IMAGES, STARTIMAGE, ENDIMAGE, and NAMEPATTERN parameters
+</h3>
+
+You can specify either an IMAGES list or a STARTIMAGE/ENDIMAGE range,
+but not both.  The IMAGES list is a string of frame numbers in the
+order in which you wish them to display, separated by vertical bars.
+You can use NAMEPATTERN with IMAGES or STARTIMAGE/ENDIMAGE to generate
+the file names to use.
+
+<p>
+
+STARTIMAGE and ENDIMAGE let you specify a range of images.  Specifying
+an ENDIMAGE that is numerically less than the STARTIMAGE will display
+the images in reverse order.  Both parameters have default values of
+1, so specifying only STARTIMAGE="15" means "play the frames in
+reverse order from 15 to 1."  Saying only ENDIMAGE="13" means "play
+the frames from 1 to 13."  Of course, you can use both STARTIMAGE and
+ENDIMAGE together.
+
+<p>
+
+<a name="namepattern">NAMEPATTERN</a> lets you specify how to generate
+the names of the files in the range STARTIMAGE to ENDIMAGE.  The
+pattern is like a URL with substitution.  Any instance of the
+characters '%N' will have the current index (integer in the
+STARTIMAGE..ENDIMAGE range) substituted for it; any instance of
+'%[digit]' -- for example, '%5' -- will have the index plugged in,
+left-padded with zeroes.  Finally, '%%' substitutes a single '%'.
+
+<p>
+
+Some examples (all assume STARTIMAGE = 1 and ENDIMAGE = 10):
+
+<DL>
+<DT>NAMEPATTERN = "T%N.gif"
+<DD>This is the default pattern, and will generate the names
+    T1.gif, T2.gif, ...T10.gif.
+
+<DT>NAMEPATTERN = "anim%3/anim%3.jpg"
+<DD>This will generate the names anim001/anim001.jpg, ... anim010/anim010.jpg
+
+<DT>NAMEPATTERN = "100%%frame%N.jpg"
+<DD>This will generate the names 100%frame1.jpg, 100%frame2.jpg, etc.
+
+</DL>
+
+<h3>
+Example files
+</h3>
+
+<DL>
+<DT><a href="example1.html">example1.html</a>
+<DD>Animated coffee beans, with a soundtrack and per-frame sound effects.
+
+<DT><a href="example2.html">example2.html</a>
+<DD>A simple two-frame animation.
+
+<DT><a href="example3.html">example3.html</a>
+<DD>A simple beany animation with start-up image.
+
+<Dt><a href="example4.html">example4.html</a>
+<DD>Animated coffee beans with POSITIONS, HREF, and BACKGROUNDCOLOR.
+
+</DL>
+
+<hr>
+</body>
+</html>

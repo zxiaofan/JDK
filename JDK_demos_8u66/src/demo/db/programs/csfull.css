@@ -1,0 +1,856 @@
+/*
+* Licensed to the Apache Software Foundation (ASF) under one or more
+* contributor license agreements.  See the NOTICE file distributed with
+* this work for additional information regarding copyright ownership.
+* The ASF licenses this file to You under the Apache License, Version 2.0
+* (the "License"); you may not use this file except in compliance with
+* the License.  You may obtain a copy of the License at
+*
+*     http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+BODY {
+	font-size : 10pt;
+	font-family : sans-serif;
+	background-color : White;
+}
+
+A:LINK {
+	color : #3300FF;
+	background-color : transparent;
+}
+
+A:VISITED {
+	color : #330099;
+	background-color : transparent;
+}
+
+A:HOVER {
+	color : Teal;
+	text-decoration : underline;
+	background-color : transparent;
+}
+
+A:ACTIVE {
+	color : Purple;
+	text-decoration : none;
+	background-color : transparent;
+}
+
+A.TOC:LINK {
+	color : #3300FF;
+	text-decoration : none;
+	background-color : transparent;
+}
+
+A.TOC:VISITED {
+	color : #330099;
+	text-decoration : none;
+	background-color : transparent;
+}
+
+A.TOC:HOVER {
+	color : Fuchsia;
+	font-weight : bold;
+	background-color : transparent;
+}
+
+A.TOC:ACTIVE {
+	color : Purple;
+	text-decoration : none;
+	background-color : transparent;
+}
+
+a[id] {
+	/* All anchors with an id attribute get this style.
+	   Used to make sure internal links (links to a different section
+	   on the same page, i.e. named anchors) don't change appearance when
+	   hovering in CSS2-enabled browsers.
+	   Hence, links to other pages should not have the id attribute set,
+	   unless this particular solution is consciously abandoned.
+        */
+	color : #3300ff ! important;
+	text-decoration : none ! important;
+}
+
+.BadFormatting{
+	background-color : transparent;
+	font-size : 24pt;
+	color : Red;
+}
+
+.CommandLine{
+	background-color : transparent;
+	color : Black;
+	font-weight : bold;
+	font-family : monospace;
+	font-size : 9pt;
+}
+
+.java {
+	background-color : transparent;
+	font-family: monospace;
+}
+
+.Output {
+	color : Gray;
+	background-color : transparent;
+	font-family : monospace;
+	font-size : 10pt;
+}
+
+.OutputVeryWide {
+	color : Gray;
+	background-color : transparent;
+	font-size :8pt;
+}
+
+.SmallFile {
+	background-color : #B0C4DE;
+}
+
+.Thin{
+	font-size : 2pt;
+	margin-top: 3px;
+	margin-bottom :3px;
+}
+
+ADDRESS {
+	font-size : 10pt;
+}
+
+ADDRESS.Footer {
+	font-size : 10pt;
+	font-style : normal;
+}
+
+
+
+Caption.TableTitle {
+	background-color : transparent;
+	font-style : normal;
+	text-align : center;
+	font-weight : bold;
+}
+
+div.navMenu {
+	border-style: dashed;
+	border-width: thin;
+	border-color: #6699cc;
+}
+
+DL.Index {
+	font-size : 9pt;
+}
+
+DL.Glossary {
+	font-size : 10pt;
+	margin-left : 0;
+	background-color : transparent;
+}
+
+DT.GlossaryTerm {
+	background-color : transparent;
+	font-style : normal;
+	font-weight : bold;
+	margin-top : 22px;
+}
+
+DD.GlossaryDefinition {
+	background-color : transparent;
+}
+
+H1 {
+	color : #004080;
+	background-color : transparent;
+	margin-top : 0px;
+	font-size : 24pt;
+}
+H1.ExtraSpace {
+	color : #004080;
+	background-color : transparent;
+	margin-top : 48px;
+	font-size : 20pt;
+}
+
+H1.BookTitle {
+	color : White;
+	background-color : #D3D3D3;
+	margin-top : 0px;
+	padding-bottom : 28px;
+	padding-left : 8px;
+	padding-right : 8px;
+	padding-top : 28px;
+	font-size : 28pt;
+	margin-bottom : 34px;
+	border : 2px solid Silver;
+}
+
+H1.Title {
+	color : Black;
+	background-color : transparent;
+	margin-top : 0px;
+	margin-bottom : 28px;
+}
+
+H1.PartTitle {
+	color : Black;
+	background-color : #D3D3D3;
+	margin-top : 0px;
+	padding-bottom : 8px;
+	padding-left : 8px;
+	padding-right : 8px;
+	padding-top : 8px;
+	font-size : 28pt;
+	border : 2px solid Silver;
+}
+
+H2 {
+	color : #0000ff;
+	background-color : transparent;
+	margin-top : 40px;
+	font-size : 18pt;
+}
+
+H2.ManPage{
+	color : #0000ff;
+	background-color : transparent;
+	margin-top : 0px;
+}
+
+H3 {
+	color : #0000A0;
+	background-color : transparent;
+	margin-top : 40px;
+	font-size : 14pt;
+}
+
+H3.BoxHead {
+	font-size : 90%;
+	margin-top : 1px;
+	margin-bottom : 6px;
+	color : Black;
+	background-color : transparent;
+}
+
+H3.GroupTitlesIX {
+	margin-top : 12px;
+	color : Black;
+	margin-bottom : 2px;
+	background-color : transparent;
+}
+H3.GroupTitlesIXGlobal {
+	margin-top : 0px;
+	color : Black;
+	margin-bottom : 2px;
+	background-color : transparent;
+}
+
+H3.ManPageSubHead {
+	background-color : transparent;
+	color : #33532F;
+	margin-top : 32px;
+}
+
+H3.Heading4 {
+	color : #33532F;
+	background-color : transparent;
+	margin-top : 32px;
+}
+
+H3.TaskHead{
+	color : #0000A0;
+	background-color : White;
+	padding-bottom : 4px;
+	padding-left : 10px;
+	padding-right : 10px;
+	padding-top : 10px;
+	margin-bottom : 10px;
+	margin-left : 0px;
+	margin-right : 10px;
+	margin-top : 20px;
+	font-weight : bold;
+	font-size : 16pt;
+}
+
+H3.TOC {
+	background-color : transparent;
+	font-size : 14pt;
+	margin-bottom : 1px;
+	margin-left : 0px;
+	margin-right : 0px;
+	margin-top : 14px;
+	font-weight : bold;
+	padding-bottom : 6px;
+	padding-left : 6px;
+	padding-right : 6px;
+	padding-top : 6px;
+}
+
+H3.TOCPartTitle {
+	background-color : #D3D3D3;
+	margin-bottom : 12px;
+	font-weight : bold;
+	color : Black;
+	padding-bottom : 8px;
+	padding-left : 12px;
+	padding-right : 12px;
+	padding-top : 12px;
+	margin-left : 0px;
+	margin-right : 0px;
+	margin-top : 24px;
+	width : 4in;
+	font-size : 18pt;
+	border : 1px solid White;
+}
+
+H4.SyntaxSubHead {
+	background-color : White;
+}
+
+H5 {
+	color : #8000FF;
+	background-color : transparent;
+}
+
+H5.SyntaxSubhead {
+	color : #538055;
+	background-color : transparent;
+	margin-left : 2em;
+}
+
+IMG {
+	border : none;
+}
+
+LI{
+	margin-top : 12px;
+}
+
+LI .CellBodyBulleted{
+	margin-top : 1px;
+}
+
+LI .SubList{
+	margin-top : 4px;
+	list-style-type : square;
+	background-color : transparent;
+}
+
+LI.BulletEmphasis {
+	font-style : normal;
+	margin-top : 12px;
+	background-color : transparent;
+}
+
+OL {
+	background-color : transparent;
+}
+
+OL.decimal {
+        background-color : transparent;
+        list-style-type : decimal;
+}
+
+P {
+	text-align : left;
+	font-style : normal;
+	background-color : transparent;
+}
+
+P.BodyRelative {
+	margin-top : 6px;
+	margin-bottom : 6px;
+	background-color : transparent;
+}
+
+P.BugNumber {
+	margin-top : -10px;
+	margin-bottom :-10px;
+	background-color : transparent;
+	color : Black;
+	font-size : 9pt;
+}
+
+
+P.CellBody {
+	font-size : 10pt;
+	margin-top : 3px;
+	margin-bottom : 3px;
+}
+
+P.CellBodySmall {
+	font-size : 9pt;
+	margin-top : 3px;
+	margin-bottom : 3px;
+}
+
+P.CellBodyCommandLine {
+	font-size :9pt;
+	font-family : monospace;
+}
+
+P.CellBodyJava {
+	font-size : 9pt;
+	font-family : monospace;
+}
+
+P.CellBodySQLExample {
+	font-size : 9pt;
+	margin-top : 2px;
+	color : #000066;
+	font-family : monospace;
+	background-color : transparent;
+}
+
+P.CellBodySQLSyntax {
+	color : #538055;
+	font-family : monospace;
+	font-size : 9pt;
+	margin-top : 2px;
+	background-color : transparent;
+}
+
+P.CellBodyIndented {
+	font-size : 10pt;
+	margin-left : 1em;
+	margin-top : 3px;
+	margin-bottom : 3px;
+}
+
+P.CellHeading {
+	font-size : 10pt;
+	font-weight : bold;
+	text-align : center;
+}
+
+P.CopyrightInfo {
+	font-size : 9pt;
+	margin-top : 6px;
+	margin-left : 12px;
+	margin-right: 12px;
+	margin-bottom : 0px;
+	padding-bottom : 1px;
+	padding-left : 1px;
+	padding-right : 1px;
+	padding-top : 1px;
+	background-color : transparent;
+}
+
+P.FigureCaption {
+	background-color : transparent;
+	font-style : italic;
+}
+
+P.IJ {
+	background-color : White;
+	color : #7a7d7d;
+}
+P.IndexKey {
+	background-color : #D3D3D3;
+	font-size : 10pt;
+	padding-bottom : 6px;
+	padding-left : 6px;
+	padding-right : 6px;
+	padding-top : 6px;
+	text-align : center;
+	width : 350px;
+	font-weight : bold;
+	border : 2px solid #D3D3D3;
+}
+
+P.Java {
+	color : #004080;
+	background-color : Purple;
+	font-size : 30pt;
+	font-family : monospace;
+}
+
+P.JavaRelative{
+	color : #004080;
+	margin-top : 2px;
+	margin-bottom : 2px;
+	background-color : transparent;
+	font-size : 10pt;
+	font-family : monospace;
+}
+
+P.Indented {
+	margin : 1em;
+}
+
+P.NavBar {
+	font-size : 9pt;
+	margin-top:6px;
+	margin-bottom :6px;
+	padding-top : 2em;
+	padding-right : 2px;
+	padding-left : 2px;
+	padding-bottom : 2em;
+	background-color : transparent;
+}
+
+P.NavBar1 {
+	font-size : 9pt;
+	margin-top: 1px;
+	margin-bottom : 8px;
+	padding-top : 2px;
+	padding-right : 2px;
+	padding-left : 2px;
+	padding-bottom : 2px;
+}
+
+P.NavBar2 {
+	font-size :9pt;
+	margin-top : 8px;
+	margin-bottom : 8px;
+	margin-left : 2em;
+	padding-top : 2px;
+	padding-right : 2px;
+	padding-left : 2px;
+	padding-bottom : 2px;
+}
+
+P.NavBar3 {
+	font-size : 9pt;
+	margin-top : 8px;
+	margin-bottom : 1px;
+	margin-left : 4em;
+	padding-top : 2px;
+	padding-right : 2px;
+	padding-left : 2px;
+	padding-bottom : 2px;
+}
+P.NavBarIndentHang {
+	font-size : 9pt;
+	margin-top:6px;
+	margin-bottom :6px;
+	padding-top : 2px;
+	padding-right : 2px;
+	padding-left : 2px;
+	padding-bottom : 2px;
+	background-color : transparent;
+	text-indent : -2em;
+	margin-left : 2em;
+}
+
+
+P.NavBarVersion {
+	font-size : 9pt;
+	margin-top: 3px;
+	margin-bottom :3px;
+}
+
+P.PageCounter {
+	font-size : 9pt;
+	text-align : right;
+	background-color : #D3D3D3;
+	border : 2px;
+	padding-bottom : 4px;
+	padding-left : 4px;
+	padding-right : 4px;
+	padding-top : 4px;
+}
+
+P.PartNum {
+	background-color : Silver;
+	padding-bottom : 8px;
+	padding-left : 8px;
+	padding-right : 8px;
+	padding-top : 8px;
+	color : White;
+	font-weight : bold;
+	font-size : 18pt;
+	margin-bottom : 0px;
+}
+
+P.OutputRelative {
+	margin-top :3px;
+	font-family : monospace;
+	color : Gray;
+	font-size : 10pt;
+	margin-bottom : 2px;
+	background-color : transparent;
+}
+
+P.Special {
+	background-color : #FFFAFA;
+	padding : 6px 6px 6px 6px;
+	border : 4px solid White;
+	color : Maroon;
+}
+
+P.SQLSyntax {
+	color : #538055;
+	margin-left : 2em;
+	background-color : White;
+	font-family : monospace;
+	font-size : 10pt;
+}
+
+P.SQLExample {
+	color : #000066;
+	margin-left : 2em;
+	background-color : transparent;
+	font-family : monospace;
+	font-size : 10pt;
+}
+
+P.TOC1 {
+	margin-top : 4px;
+	margin-bottom : 4px;
+	margin-left : 3em;
+	font-weight : bold;
+	background-color : transparent;
+}
+
+P.TOC2 {
+	margin-left : 5em;
+	margin-top : 4px;
+	margin-bottom : 4px;
+}
+
+P.TOCTaskHead {
+	margin-left : 5em;
+	margin-top : 6px;
+	margin-bottom : 6px;
+	background-color : White;
+}
+
+P.TOC3 {
+	margin-top : 4px;
+	margin-bottom : 4px;
+	margin-left : 7em;
+}
+
+P.TOC4 {
+	margin-top : 4px;
+	margin-bottom : 4px;
+	margin-left : 9em;
+}
+
+P.TutorialQuiz {
+	font-style : normal;
+	background-color : transparent;
+	margin-bottom : 0px;
+	margin-top : 0px;
+}
+
+PRE {
+	font-size : 10pt;
+	background-color : White;
+	font-family : monospace;
+
+}
+
+PRE.Java {
+	color : #004080;
+	background-color : transparent;
+	font-family : monospace;
+}
+
+PRE.JavaSmall{
+	color : #004080;
+	background-color : transparent;
+	margin-left : 2em;
+	font-family : monospace;
+}
+
+PRE.ECIJ {
+	color : #7a7d7d;
+	font-size : 9pt;
+	background-color : transparent;
+	font-family : monospace;
+
+}
+
+PRE.Output {
+	background-color : transparent;
+	font-size : 10pt;
+	font-family : monospace;
+	color: gray;
+}
+
+TABLE.listing {
+	font-size : 100%;
+	background-color : #faf0e6;
+	border-style: solid;
+	border-color: silver;
+	border-width : 1px;
+}
+
+TABLE.Sample {
+	background-color : #FAF0E6;
+}
+
+TABLE.simple {
+	font-size : 100%;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #6699cc;
+}
+
+TD.BoxTable {
+	background-color : Silver;
+	padding : 10px;
+}
+
+TD.listItem {
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	padding-left: 0.2em;
+	padding-right: 0.5em;
+}
+
+TD.heading {
+	font-weight : bold;
+	background-color : #6699cc;
+	color: #e7efff;
+}
+
+TH.heading {
+	font-weight : bold;
+	background-color : #6699cc;
+	color: #e7efff;
+}
+
+UL {
+	background-color : transparent;
+}
+UL.Normal {
+	background-color : transparent;
+}
+
+UL.boxed {
+	background-color : transparent;
+	font-size : 9pt;
+	padding-bottom : 1em;
+}
+
+UL.CellBodyBulleted {
+	font-size : 10pt;
+	margin-top : 3px;
+	margin-bottom : 3px;
+	background-color : transparent;
+}
+
+UL.ChapterTOC {
+	background-color : Silver;
+	border : medium Black;
+	padding-bottom : 10px;
+	padding-left : 10px;
+	padding-right : 10px;
+	padding-top : 10px;
+	margin-bottom : 10px;
+	margin-left : 10px;
+	margin-right : 10px;
+	margin-top : 10px;
+	list-style-type : none;
+}
+
+UL.SubList {
+	background-color : transparent;
+}
+EM {
+	font-style : italic;
+}
+
+EM.Biblio {
+	color : Black;
+	background-color : transparent;
+}
+
+EM.FileName {
+	background-color : transparent;
+}
+
+EM.NoLink {
+	color : Gray;
+	font-style : normal;
+	background-color : transparent;
+}
+
+EM.URL {
+	background-color : White;
+}
+
+EM.JavaItem {
+	background-color : White;
+}
+
+EM.DatabaseObject {
+	background-color : White;
+}
+
+EM.MenuItem {
+	font-style : normal;
+	font-weight : bold;
+}
+
+EM.Button {
+	font-style : normal;
+	font-weight : bold;
+}
+
+EM.QuizItem {
+	font-style : normal;
+}
+
+EM.UserVariable {
+	background-color : transparent;
+}
+
+STRONG.ijUI {
+	background-color : transparent;
+	color : #004080;
+	font-family : monospace;
+}
+
+STRONG.ChapterNum {
+	background-color : transparent;
+	color : Gray;
+}
+
+STRONG.Comment {
+	font-weight : normal;
+	color : #A4A9C1;
+	background-color : transparent;
+}
+
+STRONG.GlossaryTerm{
+	font-weight : bold;
+	color : Black;
+	background-color : transparent;
+}
+
+STRONG.Special {
+	font-weight : bold;
+	font-style : normal;
+}
+
+STRONG.PartNum {
+	color : #3300FF;
+	font-size : small;
+	background-color : transparent;
+}
+
+var {
+	background-color : transparent;
+	color : Black;
+	font-weight : bold;
+	font-family : monospace;
+	font-size : 90%;
+}
+
+var.envVar {
+	font-style : normal;
+}
+
+var.property {
+	font-weight : normal;
+}

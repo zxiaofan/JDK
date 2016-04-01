@@ -1,0 +1,56 @@
+# @(#)solaris.defs	1.20 02/05/08
+# these are specific to Solaris
+ARCH           = $(shell uname -p)
+CC             = cc
+CPP            = CC
+SDK_12         = /usr/local/java/jdk1.2.2/solaris
+ifeq ($(ARCH),i386)
+   SDK_12      = /usr/local/java/jdk1.2.2/x86
+endif
+MKDIR          = mkdir
+RM             = /bin/rm
+AR             = ar
+RANLIB         = ranlib
+EXEDIR         = $(BUILDDIR)/bin
+JUMP_EXE       = $(PROTO_DIR)/javawsbin
+CLASSPATH_SEP  = :
+PATH_SEP       = /
+LIBS           = -lsocket -lnsl -lw
+LINK_FLAGS     = -xildoff
+MD_SRC         = $(TOPDIR)/src/solaris
+# JUMPPLSO       = $(EXEDIR)/libjavawspl.so
+C_FLAGS	       = -xO2 -I$(SHARE_SRC)/native -I$(MD_SRC)/native -DSOLARIS
+CC_FLAGS       = -xO2 -I$(SDK_12)/include -I$(SDK_12)/include/solaris -I$(SHARE_SRC)/native -I$(MD_SRC)/native -DSOLARIS
+TAR            = tar
+CP             = /bin/cp
+RESOURCEDIR    = resources
+CHMOD          = chmod
+PLATFORM_SRC   = $(TOPDIR)/src/solaris
+UNIX_SHARE_SRC = $(TOPDIR)/src/unix
+
+DOMAINNAME     = $(shell domainname | tr '[A-Z]' '[a-z]')
+ifeq ($(DOMAINNAME),ecd.east.sun.com)
+   DOMAIN=East
+else
+   ifeq ($(DOMAINNAME), castor.sun.com)
+      DOMAIN=East
+   else
+      ifeq ($(DOMAINNAME), suntri.east.sun.com)
+	     DOMAIN=East
+      else
+         ifeq ($(DOMAINNAME), sunbrew.central.sun.com)
+		     DOMAIN=Central
+         else
+	         DOMAIN=Eng
+	     endif
+      endif
+   endif
+endif
+
+ifeq ($(DOMAIN),East)
+   ZIP=/net/altair.east/export/space6/jtg/build/tools/$(ARCH)/bin/zip
+else
+   ZIP=/java/retools/$(ARCH)/bin/zip
+endif
+ZIPDASHY= -y
+GZIP=gzip

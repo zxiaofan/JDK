@@ -1,0 +1,15 @@
+TS: 2010-08-07 21:19:05
+<?xml version="1.0" encoding="UTF-8"?>
+<jnlp spec="1.0+" codebase="$$codebase">
+    <information>
+        <title>Pie</title>
+        <vendor>Example Vendor</vendor>
+    </information>
+    <resources>
+        <j2se version="1.2+"/>
+        <jar href="pie.jar" main="true" />
+        <jar href="app-lib.jar" version="2.0" />
+    </resources>
+    <application-desc/>
+</jnlp>
+

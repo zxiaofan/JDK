@@ -1,0 +1,44 @@
+<html>
+
+<head>
+<title>Pie!</title>
+</head>
+
+<body>
+
+<p>
+This example uses <code>JnlpDownloadServlet</code> in two simple ways. An
+explicit timestamp for the application is specified at the beginning of the JNLP
+file. Also, a simple substitution string is used for the <code>codebase</code>
+URL, instead of a hardcoded value.
+</p>
+
+<p>
+When a JNLP file is requested, <code>JnlpDownloadServlet</code> handles the
+request, figures out the <code>codebase</code> URL, and substitutes it for
+<code>$$codebase</code> before sending the JNLP file to the client.
+</p>
+
+<pre>
+TS: 2010-08-07 21:19:05
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jnlp spec="1.0+" codebase="$$codebase"&gt;
+    &lt;information&gt;
+        &lt;title&gt;Pie&lt;/title&gt;
+        &lt;vendor&gt;Example Vendor&lt;/vendor&gt;
+    &lt;/information&gt;
+    &lt;resources&gt;
+        &lt;j2se version="1.2+"/&gt;
+        &lt;jar href="pie.jar" main="true" /&gt;
+    &lt;/resources&gt;
+    &lt;application-desc/&gt;
+&lt;/jnlp&gt;
+</pre>
+
+<p>
+<a href=pie.jnlp>Launch the example</a>
+</p>
+
+</body>
+
+</html>

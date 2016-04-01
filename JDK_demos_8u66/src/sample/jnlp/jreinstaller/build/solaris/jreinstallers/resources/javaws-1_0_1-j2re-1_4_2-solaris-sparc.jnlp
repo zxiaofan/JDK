@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp codebase="$$codebase">
+  <information>
+    <title>J2RE 1.4.2 Installer</title>
+    <vendor>Sun Microsystems, Inc.</vendor>
+  </information>
+  <security>
+      <all-permissions/>
+  </security>
+  <resources>
+    <j2se version="1.3+" href="http://java.sun.com/products/autodl/j2se"/> 
+    <jar href="javaws-1_0_1-j2re-1_4_2-inst-solaris-sparc.jar" size="38961" download="lazy"/>
+    <jar href="javaws-1_0_1-j2re-1_4_2-data-solaris-sparc.jar" size="14275677" download="lazy"/>     
+    <property name="javaVersion"       value="1.4.2"/>
+    <property name="platformVersion"       value="1.4"/>
+    <property name="installerLocation" value="javaws-1_0_1-j2re-1_4_2-data-solaris-sparc.jar"/>    
+    <property name="installerEntry"    value="jre.dat"/>
+    <property name="licenseEntry"      value="LICENSE"/>
+    <property name="execString"        value="/bin/sh {1} {0} {2}"/>
+    <property name="waitString.0"      value="[yes or no]"/>
+    <property name="responseString.0"  value="yes"/>
+    <property name="javaPath"          value="j2re1.4.2/bin/java"/>
+    <property name="isSolarisInstall"  value="yes"/>
+    <property name="verbose"           value="true"/>
+  </resources>
+  <installer-desc main-class="jnlp.sample.JreInstaller.Main"/>
+</jnlp>
+
+

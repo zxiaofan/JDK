@@ -1,0 +1,41 @@
+<html>
+
+<head>
+<title>Pie!</title>
+</head>
+
+<body>
+
+<p>
+This example does <i>not</i> use <code>JnlpDownloadServlet</code>. It uses a
+hardcoded JNLP file and is intended to illustrate the simplest possible way to
+deploy a Java Web Start application.
+</p>
+
+<p>
+If you deploy this example on your own web server, make sure the
+<code>codebase</code> element in the JNLP file is correct.
+</p>
+
+<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;jnlp spec="1.0+" codebase="http://localhost:8080/app1"&gt;
+    &lt;information&gt;
+        &lt;title&gt;Pie&lt;/title&gt;
+        &lt;vendor&gt;Example Vendor&lt;/vendor&gt;
+    &lt;/information&gt;
+    &lt;resources&gt;
+        &lt;j2se version="1.2+"/&gt;
+        &lt;jar href="pie.jar" main="true" /&gt;
+    &lt;/resources&gt;
+    &lt;application-desc/&gt;
+&lt;/jnlp&gt;
+</pre>
+
+<p>
+<a href=pie.jnlp>Launch the example</a>
+</p>
+
+</body>
+
+</html>

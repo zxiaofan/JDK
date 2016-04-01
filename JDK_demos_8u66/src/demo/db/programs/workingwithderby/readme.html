@@ -1,0 +1,67 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to you under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+<META http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<META http-equiv="Content-Style-Type" content="text/css">
+<TITLE>Example Programs</TITLE>
+<link rel="stylesheet" type="text/css" href="../csfull.css" title="sample">
+</HEAD>
+<BODY>
+
+<H1>The Getting Started With Derby Sample Programs</H1>
+<P>The programs in this directory are described in the the 
+<A href="../../../docs/html/getstart/index.html"><i>Getting Started With Derby</i></A>
+manual. Please see this document for more information.</P>
+<UL>
+  <LI>
+  <p class="BodyRelative">
+  <A href="WwdEmbedded.java" type="text/plain"><code>WwdEmbedded.java</code></A></p>
+  <p class="BodyRelative">A very basic JDBC program that uses Derby. This is 
+  the primary program example used in the JDBC sections of <i>Getting Started With
+  Derby</i>. It is described in detail in that manual.</p>
+  </LI>
+  <LI><p class="BodyRelative">
+  <A href="WwdClientExample.java" type="text/plain"><code>WwdClientExample.java</code></A></p>
+  <p class="BodyRelative">This is an example of what the <code>WwdClient.java</code> program created as part
+  of one of the <i>Getting Started With Derby</i> activities will look like. A working copy of that code
+  is provided here for people interested in examining the code without performing
+  the edits described in the activity.</p></LI>
+</UL>
+<UL>
+  <LI><p class="BodyRelative"><A href="WwdUtils.java" type="text/plain"><code>WwdUtils.java</code></A></p>
+<P class="BodyRelative">These are utility methods used by the <i>Getting Started With Derby</i> programs that
+are not described in the manual. The processing performed by these methods
+does not demonstrate basic JDBC processing and so is outside the scope
+of an introductory manual like <i>Getting Started With Derby</i>. These methods provide
+environment validation and manage user input so the program is more robust.
+The code is provided here for people interested in examining the processing.
+It contains three methods:</P>
+<OL>
+  <LI><code>getWishItem</code> - Prompts for user input and returns the entered text, if any,
+  to the calling program. Handles I/O exceptions and insists that some text
+  is entered.
+  <LI><code>wwdChk4Table</code> - Checks if the table needed by the program already exists
+  and is defined properly. Handles certain errors that could occur.
+  <LI><code>main</code> - Allows standalone testing of the
+  <code>getWishItem</code> method.
+</OL></LI>
+</UL>
+
+</BODY>
+</HTML>

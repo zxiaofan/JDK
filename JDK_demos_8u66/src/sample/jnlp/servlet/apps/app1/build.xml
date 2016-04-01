@@ -1,0 +1,35 @@
+<project name="app1" default="war" basedir=".">
+
+  <target name="compile" depends="">
+    <mkdir dir="build/classes"/>
+    <javac srcdir="src/java" destdir="build/classes"/>
+    <copy todir="build/classes">
+      <fileset dir="src/res"/>
+    </copy>
+  </target>
+  
+  <target name="jar" depends="compile">
+    <mkdir dir="build/lib"/>
+    <jar destfile="build/lib/pie.jar">
+      <fileset file="build/classes/Pie.class" />
+      <fileset file="build/classes/key-lime.jpg" />
+      <manifest>
+        <attribute name="Main-Class" value="Pie"/>
+      </manifest>
+    </jar>
+  </target>
+
+  <target name="war" depends="jar">
+    <mkdir dir="dist"/>
+    <war warfile="dist/${ant.project.name}.war" webxml="src/meta/web.xml">
+      <fileset dir="src/docs"/>
+      <fileset dir="build/lib"/>
+    </war>
+  </target>
+
+  <target name="clean">
+    <delete dir="build"/>
+    <delete file="dist/${ant.project.name}.war"/>
+  </target>
+
+</project>

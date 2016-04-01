@@ -1,0 +1,25 @@
+#
+# @(#)bundle.unix.gmk	1.3 01/10/11
+#
+# Makefile that builds a J2RE bundle for UNIX platforms.
+#
+
+#
+# Arguments
+#
+# Source files:
+#
+# J2RE_BIN      : Path to J2RE installer
+# J2RE_LICENSE  : Path to licensing agreement
+# J2RE_JNLP     : Path to JNLP file
+#
+# Target files:
+#
+# J2RE_INST_JAR : Name of installer JAR file
+# J2RE_DATA_JAR : Name of data JAR file
+# J2RE_BUNDLE   : Name of bundle to bundle everything up in
+#
+
+bundle: $(BINDIR)/$(J2RE_DATA_JAR) $(BINDIR)/$(J2RE_INST_JAR)
+
+

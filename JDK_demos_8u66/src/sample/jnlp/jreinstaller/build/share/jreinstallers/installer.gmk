@@ -1,0 +1,53 @@
+#
+# @(#)installer.gmk	1.8 03/03/04
+#
+# J2RE Installers shared stuff
+#
+
+JAR           = $(SDK_12)/bin/jar
+JAVAC         = $(SDK_12)/bin/javac
+JARSIGNER     = $(SDK_12)/bin/jarsigner
+
+SRCDIR        = ../../../src/share/classes
+CACERTS       = ../../../src/share/config/cacerts.janet
+PASSWD        = password
+ALIAS         = janet
+
+RESOURCESDIR  = resources
+CLASSDESTDIR  = classes
+CLASSPATH     = "$(JNLP_JAR)$(CLASSPATH_SEP)$(SRCDIR)"
+
+FILES_java = jnlp/sample/JreInstaller/Main.java   \
+             jnlp/sample/JreInstaller/Config.java \
+             jnlp/sample/JreInstaller/SolarisInstaller.java \
+             jnlp/sample/JreInstaller/WindowsInstaller.java
+
+FILES_props = jnlp/sample/JreInstaller/resources/strings.properties \
+              jnlp/sample/JreInstaller/resources/sunlogo.png
+
+FILES_class = $(FILES_java:%.java=$(CLASSDESTDIR)/%.class)
+
+FILES_propbld = $(FILES_props:%=$(CLASSDESTDIR)/%)
+
+#
+# Compile Java code
+#
+
+$(CLASSDESTDIR)/%.class: $(SRCDIR)/%.java
+	$(JAVAC) -classpath $(CLASSPATH) -d $(CLASSDESTDIR) $?
+
+$(CLASSDESTDIR)/%.properties: $(SRCDIR)/%.properties
+	$(MKDIR) -p $(@D)
+	$(CP) -f $? $@
+
+$(CLASSDESTDIR)/%.png: $(SRCDIR)/%.png
+	$(MKDIR) -p $(@D)
+	$(CP) -f $? $@
+
+
+$(CLASSDESTDIR):
+	$(MKDIR) $@
+
+$(BINDIR):
+	$(MKDIR) $@
+

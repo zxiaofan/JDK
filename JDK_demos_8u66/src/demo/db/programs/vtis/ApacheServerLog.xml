@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<ServerLog>
+<Visitor IP="193.105.113.102" accessDate="01/Jul/2002:17:31:17 +0200" request="GET /people/Tayeb.Lemlouma/Papers/Programmation%20logique%20avec%20contraintes.pdf HTTP/1.1" statusCode="206" fileSize="1024" referrer="-" userAgent="Mozilla/4.0 (compatible; MSIE 5.01; Windows NT)" />
+<Visitor IP="193.105.113.102" accessDate="01/Jul/2002:17:31:18 +0200" request="GET /people/Tayeb.Lemlouma/Papers/Programmation%20logique%20avec%20contraintes.pdf HTTP/1.1" statusCode="206" fileSize="2395" referrer="-" userAgent="Mozilla/4.0 (compatible; MSIE 5.01; Windows NT)" />
+<Visitor IP="193.105.113.102" accessDate="01/Jul/2002:17:31:19 +0200" request="GET /people/Tayeb.Lemlouma/Papers/Programmation%20logique%20avec%20contraintes.pdf HTTP/1.1" statusCode="206" fileSize="66568" referrer="-" userAgent="Mozilla/4.0 (compatible; MSIE 5.01; Windows NT)" />
+<Visitor IP="208.13.106.20" accessDate="01/Jul/2002:17:40:56 +0200" request="GET /people/Tayeb.Lemlouma/MULTIMEDIA/CCPP/UPS-Package/UPSProfiles.html HTTP/1.0" statusCode="200" fileSize="3332" referrer="-" userAgent="Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0) Fetch API Request" />
+<Visitor IP="80.15.59.139" accessDate="01/Jul/2002:17:41:07 +0200" request="GET /people/Tayeb.Lemlouma/Papers/AdHoc_Presentation.pdf HTTP/1.1" statusCode="200" fileSize="18535" referrer="http://www.google.fr/search?q=%22applications+militaires%22+fr%C3%A9quence&amp;hl=fr&amp;lr=&amp;ie=UTF-8&amp;oe=UTF8&amp;start=20&amp;sa=N" userAgent="Mozilla/4.0 (compatible; MSIE 6.0; Windows 98)" />
+<Visitor IP="64.51.19.178" accessDate="01/Jul/2002:18:09:15 +0200" request="GET /people/Tayeb.Lemlouma/MULTIMEDIA/CCPP/UPS-Package/UPSProfiles.html HTTP/1.0" statusCode="200" fileSize="3332" referrer="-" userAgent="Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0) Fetch API Request" />
+<Visitor IP="64.51.19.178" accessDate="01/Jul/2002:18:19:08 +0200" request="GET /people/Tayeb.Lemlouma/NegotiationSchema/index.htm HTTP/1.0" statusCode="304" fileSize="-" referrer="-" userAgent="Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0) Fetch API Request" />
+</ServerLog>
+

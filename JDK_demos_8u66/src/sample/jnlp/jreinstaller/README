@@ -1,0 +1,73 @@
+JavaWebStart JRE 1.4.2 auto-download installer sample
+-----------------------------------------------------
+
+Brief Description :
+
+This sample is the Java Web Start JRE auto-download installer.  You can specify
+this installer in your application's JNLP file.  Then, when your JNLP
+application is loaded by a client, if the required JRE is not on the client
+machine, this installer will be used to auto-download the JRE to the client
+machine.
+
+Files :
+
+build	- This directory contains all the necessary files for building your
+          application
+src	- This directory contains the source code for the sample
+          installer
+
+Building and Deployment of installer :
+
+To build on a specific platform, go to:
+
+jreinstaller/build/<platform>/jreinstallers
+
+and do a:
+
+gnumake -e SDK_12=<path to sdk directory> \
+        -e JNLP_JAR=<path to jnlp.jar/javaws.jar> \
+        -e J2RE_BIN=<path to the 1.4.2 jre installer executable> \
+        -e J2RE_LICENSE=<path to the jre installer license,
+			e.g LICENSE file located in jre directory> \
+        -e SIGNING=<true if you want to sign the jars> \
+        -e CACERTS=<path to keystore location for jar signing> \
+        -e PASSWD=<password for keystore integrity> \
+        -e ALIAS=<keystore alias>
+
+For information on how to generate self-signed certificates for testing 
+purpose, see:
+http://docs.oracle.com/javase/1.5.0/docs/guide/javaws/developersguide/development.html#signing
+
+The resulting jar files will be generated in:
+
+jreinstaller/build/<platform>/jreinstallers/bin/
+
+The jnlp file for the installer can be found at:
+
+jreinstaller/build/<platform>/jreinstallers/resources/
+
+You will need to host the installer using the JNLPDownloadServlet and the
+VersionDownload Protocol.  Please refer to the JNLPDownloadServlet guide for
+more details:
+
+http://docs.oracle.com/javase/1.5.0/docs/guide/javaws/developersguide/development.html
+
+The "javaVersion" property in the JREInstaller jnlp file will be the version of
+the JRE. It must match the <version-id> tag (specified in the version.xml file)
+for  the jnlp file of the JREInstaller.
+
+There is a sample version.xml and a sample jnlp file for the JREInstaller in
+the directory jreinstaller/build/<platform>/jreinstallers/resources/.
+
+On Windows platform, the installer will install the JRE into the default
+location, "c:\program files\java\j2re1.4.2"
+
+On Solaris/Linux, the installer will install the JRE into the user's
+javawebstart cache.
+
+In order for your application to use this JREInstaller, you will need to set
+the j2se href tag in the application's jnlp file to point to the URL where you
+host the installer.  For example, if your JREInstaller jnlp file is located at
+http://somehost.com/142installer/javaws-1_0_1-j2re-1_4_2-windows-i586.jnlp, 
+then the j2se href tag in your application should point to 
+"http://somehost.com/142installer".

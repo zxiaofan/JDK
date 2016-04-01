@@ -1,0 +1,147 @@
+WebPad Application Version 1.0.
+
+Brief Description :
+
+This simple word processing application allows users to Create, Open,
+Modify, Save and Print files. Webpad application uses the following 
+JNLP API extensively to access resources locally even when running
+in the untrusted execution environment. 
+
+FileOpenService : openFileDialog will allow the user to choose a single
+file. Contents of the selected file is returned as a FileContents object.
+
+FileContent : This object encapsulates the name and contents of a file. 
+It provides many methods to access information related to its contents.
+
+FileSaveService : This allows the user to save a file to the local file
+using its methods saveFileDialog() and saveAsFileDialog().
+
+ClipboardService : Methods getContents() and setContents() are used for 
+accessing the contents of shared system-wide clipboard.
+ 
+PrintService : This provides methods for access to printing functions.
+
+DownloadService : This allows application to determine if its resources
+are cached and to force resources to be cached. It also pops up a progress
+window which updates the status as the load progresses.
+
+BasicService : The BasicService interface provides access to the codebase
+of the application and directs browser on the client to show the given URL.  
+
+PersistenceService: This interface provides methods for storing data 
+locally on the client system, somewhat similar to cookie mechanism.
+This current README file is a implementation of PersistenceService API. 
+Similarly whatever valid contents existed in the text area of WebPad before
+exiting will be displayed when the application is restarted next time.
+
+
+Publish and Show options under the menu Web allows users to publish the
+contents of the textarea to the web server. Show displays the published
+content inside the browser. This is implemented using Servlets.
+Help subsystem is also supported by Webpad application.
+
+Java Web Start is launched automatically by browser when the user clicks on 
+a link which is associated with a JNLP file. It then downloads and caches the
+webpad application on the local client machine where browser is running.
+This cached application when invoked next time is already downloaded and
+runs as fast as a traditionally installed application.By default applications
+are run in a protective environment (sandbox) with restricted access to 
+local disk and network resources. 
+
+Java Web Start only transfers JAR files from the Web server to the location
+determined by it on the client machine. Thus, an application cannot use 
+disk-relative references to resources such as images and configuration files.
+To achieve this, we used ClassLoader.getResource() API to access any resource
+file inside the JAR files.  
+
+To provide a simple and convenient packaging format of Applications, Java
+Web Start includes a servlet in the developer's pack. The name of the servlet
+is JnlpDownloadServlet and is packaged into the jnlp-servlet.jar file. This
+servlet eases deployment of application on any J2EE-complaint application
+server by packing a JNLP files and its associated resources in a Web Archive
+(.war) file. Java Web Start also supports version based download of
+applications as illustrated in the webpad demo. For each resource (jar files)
+in the .jnlp file, version number can be specified. Version numbers can
+be associated on a per-file basis or can be described in the the version.xml 
+file on a per-directory basis.
+
+
+For more details on Java Web Start product and JNLP API, Please check out 
+online docs at
+http://docs.oracle.com/javase/1.5.0/docs/guide/javaws/developersguide/development.html
+
+
+
+Files :
+
+src       - This directory has all the required source files. To
+            demonstrate how version based deployment of applications
+            can be done, we are assuming that this is version 1.
+            version1 directory has complete source (.java) files
+            required for developing WebPad application. servlet 
+            directory has sources required for demonstrating Publish
+            and Show features of WebPad app.
+
+lib       - This directory will contain the generated txtservlet.jar
+	    and webpad.jar
+
+class     - This directory containing .class files is generated
+            by the build process. README file here is opened by
+            default by the WebPad application. It is maintained
+            here so that it gets archived into JAR files, so 
+            please maintain a copy of README file in this dir.
+
+war       - This directory contains all the files required for 
+            deploying a web based application. Application related 
+            .jnlp files and .jar files are inside app. webpad.jnlp 
+            and javahelp.jnlp files are used in this application.
+            jlfgr-1.0.jar is the standard Java L&F icons. 
+            jh.jar and holidays.jar are part of JavaHelp 1.1.
+            jhcore.jar is a tiny file that gets downloaded eagerly
+            by JWS leaving the bigger jh.jar and holidays.jar file
+            on the server. JWS will always download atleast one JAR 
+            resource eagerly from any JNLP file. All these JAR
+            files have version numbers associated with it except the
+            webpad.jar file which is specified in version.xml file.  
+
+Building & Deployment of Application :
+
+1) Build .class and .jar files by running
+  
+   gnumake
+
+   in the directory where GNUmakefile file resides.
+
+   The following environment variable must be set:
+
+   # environment variable CLASS_PATH should contain path to javaws.jar, servlet.jar and jh.jar 
+   # environment variable FILE_SEPARATOR variable for file separator (; on win32 and : on unix)
+   # environment variable SDK_HOME should point to SDK directory
+
+   If you are running on windows platform, it also assume you have MKS Toolkit installed and it is in your path environment variable.  (We need commands like cp, echo, mkdir, rm)  
+
+   The generated classes will go to the classes directory, and the resulting jar files will be in the lib directory by default.  You can adjust the output directory to anything you want by changing the GNUmakefile.
+
+
+
+2) To ease the deployment of application to on any J2EE-complaint 
+   server all the resources required including .jnlp and jar files
+   are packed into a Web Archive (.war) file.
+
+   Please put the following files into the war directory:
+
+   war/WEB-INF/lib/jnlp-servlet.jar (from building the JNLPDownloadServlet)
+   war/WEB-INF/lib/txtservlet.jar (generated in the lib directory)
+   war/WEB-INF/lib/<jar files for XML parser> (not needed if servlet container is running J2SE 1.4+; or if the servlet container already comes with a XML parser in it)
+   war/app/jh__V1.0.jar (rename from jh.jar)
+   war/app/webpad.jar (generated in the lib directory)
+   
+   To build .war file, run below command inside the war directory
+
+   jar -cvf ../webpad.war .
+
+3) Copy webpad.war file generated to the your web server directory.
+   For Tomcat server, copy webpad.war file to
+   $TOMCAT_HOME/webapps directory and restart the web server.
+
+

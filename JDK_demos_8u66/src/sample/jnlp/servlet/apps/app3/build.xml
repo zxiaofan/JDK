@@ -1,0 +1,53 @@
+<project name="app3" default="war" basedir=".">
+ <property environment="env"/>
+   <property name="jnlp_servlet_jar"
+           value="${env.JDK_HOME}/sample/jnlp/servlet/jnlp-servlet.jar"/>
+ <property name="jardiff_jar"
+           value="${env.JDK_HOME}/sample/jnlp/servlet/jardiff.jar"/>
+ <property name="pack200_executable"
+           value="${env.JDK_HOME}/bin/pack200"/>
+
+  <target name="compile" depends="">
+    <mkdir dir="build/classes"/>
+    <javac srcdir="src/java" destdir="build/classes"/>
+    <copy todir="build/classes">
+      <fileset dir="src/res"/>
+    </copy>
+  </target>
+
+  <target name="jar" depends="compile">
+    <mkdir dir="build/lib"/>
+    <jar destfile="build/lib/pie.jar">
+      <fileset file="build/classes/Pie.class" />
+      <fileset file="build/classes/key-lime.jpg" />
+      <manifest>
+        <attribute name="Main-Class" value="Pie"/>
+      </manifest>
+    </jar>
+
+    <jar destfile="build/lib/app-lib-2.0.jar">
+      <fileset file="build/classes/AppLib.class" />
+    </jar>
+
+    <exec executable="${pack200_executable}">
+      <arg value="build/lib/pie.jar.pack.gz"/>
+      <arg value="build/lib/pie.jar"/>
+    </exec>
+  </target>
+
+  <target name="war" depends="jar">
+    <mkdir dir="dist"/>
+    <war warfile="dist/${ant.project.name}.war" webxml="src/meta/web.xml">
+      <fileset dir="src/docs"/>
+      <fileset dir="build/lib" />
+      <lib file="${jnlp_servlet_jar}"/>
+      <lib file="${jardiff_jar}"/>
+    </war>
+  </target>
+
+  <target name="clean">
+    <delete dir="build"/>
+    <delete file="dist/${ant.project.name}.war"/>
+  </target>
+
+</project>

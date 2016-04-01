@@ -1,0 +1,173 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML lang="en">
+<HEAD>
+<TITLE>Derby Network Server sample program</TITLE>
+<META http-equiv=Content-Type content="text/html; charset=iso-8859-1">
+</HEAD>
+<BODY>
+<H2><A name=Top_Of_Page></A><A name=nsrun></A><A name=nssample></A>Derby 
+Network Server sample program</H2>
+<P>The Network Server sample demo program (NsSample) is a simple JDBC application that 
+interacts with the Derby Network Server. The program:</P>
+<OL>
+  <LI>Starts the Derby Network Server.</LI>
+  <LI>Connects to the Network Server and creates the database if not already
+  created. The Network Client driver is loaded automatically.</LI>
+  <LI>Checks to see if the schema is already created, and if not, </LI>
+  <LI>Creates the schema, which includes the <tt>SAMPLETBL</tt> table and 
+  corresponding indexes.</LI>
+  <LI>Connects to the database.</LI>
+  <LI>Loads the schema by inserting data.</LI>
+  <LI>Starts client threads to perform database related operations.</LI>
+  <LI>Has each of the clients perform DML operations (select, insert, delete, 
+  update) using JDBC calls; in particular, one client opens an embedded
+  connection to perform database operations, while the other client opens a
+  client connection to the Derby Network Server to perform database
+  operations.</LI> 
+  <LI>Waits for the client threads to finish the tasks.</LI>
+  <LI>Shuts down the Derby Network Server at the end of the demo.</LI>
+</OL>
+<P>The following files in the
+<TT><i>DERBY_INSTALL</i>\demo\programs\nserverdemo\</TT> directory are needed to
+run the sample program (<i>DERBY_INSTALL</i> is the directory where you
+installed Derby):</P>
+<UL>
+  <LI><TT>NsSample.java</tt><br>
+This is the entry point into the demo application. The program starts up two clients. One client opens an embedded 
+connection to perform database operations, while the other client opens a client 
+connection to the Derby Network Server to perform database operations.  This program provides the following constants that 
+can be changed to modify the sample demo:
+<UL>
+
+    <LI><tt>NUM_ROWS</tt> - The number of rows that must be initially loaded into the schema.</li>
+    <LI><tt>ITERATIONS</tt> - The number of iterations for which each client thread does database related work.</LI>
+<LI><tt>NUM_CLIENT_THREADS</tt> - The number of clients that you want to run the program against.</li> 
+    <LI><tt>NETWORKSERVER_PORT</tt> - The port on which the network server is running.</LI>
+</UL>
+
+You can also modify the program to exclude starting the Network Server as part of the sample program. 
+Make sure to recompile the Java files before running the program if you make any 
+changes to the source code.
+
+</li>
+
+<li><tt>NsSampleClientThread.java</tt></br>
+This file contains two Java classes:
+  <UL>
+    <LI>The <tt>NsSampleClientThread</tt> class extends Thread and does all the 
+necessary work by instantiating a <tt>NsSampleWork</tt> instance.</li>
+    <LI>The <tt>NsSampleWork</tt> class contains everything required to perform 
+DML operations using JDBC calls. The <tt>doWork</tt> method in 
+the <tt>NsSampleWork</tt> class represents all the work done as 
+part of this sample program.</LI>
+</UL>
+</li>
+  <LI><tt>NetworkServerUtil.java</tt><br>
+This file contains helper methods to start the Derby Network Server and to shut down the server.
+</li>
+  <LI>Compiled class files:
+<UL>
+    <LI><tt>NsSample.class</tt></li> 
+    <LI><tt>NsSampleClientThread.class</tt></li> 
+    <LI><tt>NetworkServerUtil.class</tt></li> 
+</UL>
+</li>
+</ul>
+
+
+<H2>Running the Network Server demo program</H2>
+<P>To run the Derby Network Server demonstration program:</P>
+<OL>
+  <LI>Open a command prompt and change directories to the <tt><i>DERBY_INSTALL</i>\demo\programs\</tt> directory. 
+  <LI>Set the CLASSPATH to the current directory (".") and also include the following 
+  jar files in order to use the Derby Network Server and the Derby Client Network JDBC Driver.
+<ul>
+<li><tt>derbynet.jar</tt><br>The Network Server jar file. It must be in your CLASSPATH to use any of the Derby Network 
+Server functions.</li>
+<li><tt>derbyclient.jar</tt><br>This jar file must be in your CLASSPATH to use the Derby Client Network JDBC Driver.</li>
+<li><tt>derby.jar</tt><br>The Derby database engine jar file.</li>
+</ul>
+</LI>
+<li>Test the CLASSPATH settings by running the following java command:<pre>java org.apache.derby.tools.sysinfo</pre>This command will show the Derby jar files that are in the CLASSPATH along with their respective versions.</li>
+<li>Once you have set up your environment correctly, execute the application from the <br> 
+<tt><i>DERBY_INSTALL</i>\demo\programs\</tt> directory:<br>
+<pre>java nserverdemo.NsSample [driverType]</pre>
+<ul>
+<li>Where the possible values for driverType are:
+<ul>
+<li>derbyClient (default)
+</ul>
+</ul>
+</li>
+</OL>
+You should receive output similar to the following if the 
+program runs successfully:<br><br>
+
+<tt>
+Using JDBC driver: org.apache.derby.jdbc.ClientDriver<br>
+Derby Network Server created<br>
+Apache Derby Network Server started and ready to accept connections on port 1621<br>
+[NsSample] Derby Network Server started.<br>
+[NsSample] Sample Derby Network Server program demo starting. <br>
+Please wait .....................<br>
+[NsSampleWork] Begin creating table - SAMPLETBL and necessary indexes.<br>
+[NsSampleClientThread] Thread id - 2; started.<br>
+[NsSampleWork] Thread id - 2; requests database connection, dbUrl =jdbc:derby://localhost:1621/NSSampledb;create=true;<br>
+[NsSampleClientThread] Thread id - 1; started.<br>
+[NsSampleWork] Thread id - 1; requests database connection, dbUrl =jdbc:derby:NSSampledb;<br>
+[NsSampleWork] Thread id - 1; inserted 1 row.<br>
+[NsSampleWork] Thread id - 1; inserted 1 row.<br>
+[NsSampleWork] Thread id - 1; deleted 1 row with t_key = 9372<br>
+[NsSampleWork] Thread id - 1 selected 1 row [920,Derby50        ,951.7808,9216]<br>
+[NsSampleWork] Thread id - 1 selected 1 row [920,Derby50        ,951.7808,9216]<br>
+[NsSampleWork] Thread id - 1; inserted 1 row.<br>
+[NsSampleWork] Thread id - 1 selected 1 row [920,Derby50        ,951.7808,9216]<br>
+[NsSampleWork] Thread id - 1; deleted 1 row with t_key = 9216<br>
+[NsSampleWork] Thread id - 1 selected 1 row [824,Derby26        ,8.802546E22,9155]<br>
+[NsSampleWork] Thread id - 1; updated 1 row with t_key = 9155<br>
+[NsSampleWork] Thread id - 1; closed connection to the database.<br>
+[NsSampleClientThread] Thread id - 1; finished all tasks.<br>
+[NsSampleWork] Thread id - 2; updated 0 row with t_key = 9372<br>
+[NsSampleWork] Thread id - 2; updated 1 row with t_key = 9155<br>
+[NsSampleWork] Thread id - 2 selected 1 row [56,Derby26        ,8.802546E22,9155]<br>
+[NsSampleWork] Thread id - 2; inserted 1 row.<br>
+[NsSampleWork] Thread id - 2; updated 1 row with t_key = 9155<br>
+[NsSampleWork] Thread id - 2; deleted 1 row with t_key = 9155<br>
+[NsSampleWork] Thread id - 2 selected 1 row [785,Derby2         ,0.30170244,8280]<br>
+[NsSampleWork] Thread id - 2 selected 1 row [785,Derby2         ,0.30170244,8280]<br>
+[NsSampleWork] Thread id - 2; updated 1 row with t_key = 8280<br>
+[NsSampleWork] Thread id - 2 selected 1 row [59,Derby2         ,0.30170244,8280]<br>
+[NsSampleWork] Thread id - 2; closed connection to the database.<br>
+[NsSampleClientThread] Thread id - 2; finished all tasks.<br>
+[NsSample] Shutting down network server.<br>
+Apache Derby Network Server - shutdown<br>
+[NsSample] End of Network server demo.<br>
+<br>
+</tt>
+
+<P>Running the demo program will also create new directories and files:</P>
+<UL>
+  <LI><A name=Bot_Of_Page></A><tt>NSSampledb</tt><br>This directory makes up the 
+NSSampledb database.</li>
+  <LI><tt>derby.log</tt><br>This log file contains Derby progress and error messages.</li>
+</ul>
+
+
+</BODY>
+</HTML>
