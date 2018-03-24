@@ -1,0 +1,239 @@
+/*
+ * Copyright (c) 2010, 2016, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+package javafx.scene.control.skin;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import com.sun.javafx.scene.control.Properties;
+import com.sun.javafx.scene.control.behavior.BehaviorBase;
+import com.sun.javafx.scene.control.skin.Utils;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.AccessibleAction;
+import javafx.scene.AccessibleAttribute;
+import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.control.Control;
+import javafx.scene.control.ResizeFeaturesBase;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TablePosition;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableSelectionModel;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableView.TableViewFocusModel;
+import javafx.scene.control.TableView.TableViewSelectionModel;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Region;
+import javafx.util.Callback;
+
+import com.sun.javafx.scene.control.behavior.TableViewBehavior;
+
+/**
+ * Default skin implementation for the {@link TableView} control.
+ *
+ * @see TableView
+ * @since 9
+ */
+public class TableViewSkin<T> extends TableViewSkinBase<T, T, TableView<T>, TableRow<T>, TableColumn<T, ?>> {
+
+    /***************************************************************************
+     *                                                                         *
+     * Private Fields                                                          *
+     *                                                                         *
+     **************************************************************************/
+
+    private final TableViewBehavior<T>  behavior;
+
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Constructors                                                            *
+     *                                                                         *
+     **************************************************************************/
+
+    /**
+     * Creates a new TableViewSkin instance, installing the necessary child
+     * nodes into the Control {@link Control#getChildren() children} list, as
+     * well as the necessary input mappings for handling key, mouse, etc events.
+     *
+     * @param control The control that this skin should be installed onto.
+     */
+    public TableViewSkin(final TableView<T> control) {
+        super(control);
+
+        // install default input map for the TableView control
+        behavior = new TableViewBehavior<>(control);
+//        control.setInputMap(behavior.getInputMap());
+
+        flow.setFixedCellSize(control.getFixedCellSize());
+        flow.setCellFactory(flow -> createCell());
+
+        EventHandler<MouseEvent> ml = event -> {
+            // RT-15127: cancel editing on scroll. This is a bit extreme
+            // (we are cancelling editing on touching the scrollbars).
+            // This can be improved at a later date.
+            if (control.getEditingCell() != null) {
+                control.edit(-1, null);
+            }
+
+            // This ensures that the table maintains the focus, even when the vbar
+            // and hbar controls inside the flow are clicked. Without this, the
+            // focus border will not be shown when the user interacts with the
+            // scrollbars, and more importantly, keyboard navigation won't be
+            // available to the user.
+            if (control.isFocusTraversable()) {
+                control.requestFocus();
+            }
+        };
+        flow.getVbar().addEventFilter(MouseEvent.MOUSE_PRESSED, ml);
+        flow.getHbar().addEventFilter(MouseEvent.MOUSE_PRESSED, ml);
+
+        // init the behavior 'closures'
+        behavior.setOnFocusPreviousRow(() -> onFocusPreviousCell());
+        behavior.setOnFocusNextRow(() -> onFocusNextCell());
+        behavior.setOnMoveToFirstCell(() -> onMoveToFirstCell());
+        behavior.setOnMoveToLastCell(() -> onMoveToLastCell());
+        behavior.setOnScrollPageDown(isFocusDriven -> onScrollPageDown(isFocusDriven));
+        behavior.setOnScrollPageUp(isFocusDriven -> onScrollPageUp(isFocusDriven));
+        behavior.setOnSelectPreviousRow(() -> onSelectPreviousCell());
+        behavior.setOnSelectNextRow(() -> onSelectNextCell());
+        behavior.setOnSelectLeftCell(() -> onSelectLeftCell());
+        behavior.setOnSelectRightCell(() -> onSelectRightCell());
+
+        registerChangeListener(control.fixedCellSizeProperty(), e -> flow.setFixedCellSize(getSkinnable().getFixedCellSize()));
+
+    }
+
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Public API                                                              *
+     *                                                                         *
+     **************************************************************************/
+
+    /** {@inheritDoc} */
+    @Override public void dispose() {
+        super.dispose();
+
+        if (behavior != null) {
+            behavior.dispose();
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override public Object queryAccessibleAttribute(AccessibleAttribute attribute, Object... parameters) {
+        switch (attribute) {
+            case SELECTED_ITEMS: {
+                List<Node> selection = new ArrayList<>();
+                TableViewSelectionModel<T> sm = getSkinnable().getSelectionModel();
+                for (TablePosition<T,?> pos : sm.getSelectedCells()) {
+                    TableRow<T> row = flow.getPrivateCell(pos.getRow());
+                    if (row != null) selection.add(row);
+                }
+                return FXCollections.observableArrayList(selection);
+            }
+            default: return super.queryAccessibleAttribute(attribute, parameters);
+        }
+    }
+
+    /** {@inheritDoc} */
+    @Override protected void executeAccessibleAction(AccessibleAction action, Object... parameters) {
+        switch (action) {
+            case SHOW_ITEM: {
+                Node item = (Node)parameters[0];
+                if (item instanceof TableCell) {
+                    @SuppressWarnings("unchecked")
+                    TableCell<T, ?> cell = (TableCell<T, ?>)item;
+                    flow.scrollTo(cell.getIndex());
+                }
+                break;
+            }
+            case SET_SELECTED_ITEMS: {
+                @SuppressWarnings("unchecked")
+                ObservableList<Node> items = (ObservableList<Node>)parameters[0];
+                if (items != null) {
+                    TableSelectionModel<T> sm = getSkinnable().getSelectionModel();
+                    if (sm != null) {
+                        sm.clearSelection();
+                        for (Node item : items) {
+                            if (item instanceof TableCell) {
+                                @SuppressWarnings("unchecked")
+                                TableCell<T, ?> cell = (TableCell<T, ?>)item;
+                                sm.select(cell.getIndex(), cell.getTableColumn());
+                            }
+                        }
+                    }
+                }
+                break;
+            }
+            default: super.executeAccessibleAction(action, parameters);
+        }
+    }
+
+
+
+    /***************************************************************************
+     *                                                                         *
+     * Private methods                                                         *
+     *                                                                         *
+     **************************************************************************/
+
+    /** {@inheritDoc} */
+    private TableRow<T> createCell() {
+        TableRow<T> cell;
+
+        TableView<T> tableView = getSkinnable();
+        if (tableView.getRowFactory() != null) {
+            cell = tableView.getRowFactory().call(tableView);
+        } else {
+            cell = new TableRow<T>();
+        }
+
+        cell.updateTableView(tableView);
+        return cell;
+    }
+
+    /** {@inheritDoc} */
+    @Override protected int getItemCount() {
+        TableView<T> tableView = getSkinnable();
+        return tableView.getItems() == null ? 0 : tableView.getItems().size();
+    }
+
+    /** {@inheritDoc} */
+    @Override void horizontalScroll() {
+        super.horizontalScroll();
+        if (getSkinnable().getFixedCellSize() > 0) {
+            flow.requestCellLayout();
+        }
+    }
+}

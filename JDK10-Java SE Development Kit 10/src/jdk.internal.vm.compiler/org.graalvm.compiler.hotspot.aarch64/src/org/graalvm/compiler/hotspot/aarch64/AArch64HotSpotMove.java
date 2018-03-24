@@ -1,0 +1,200 @@
+/*
+ * Copyright (c) 2013, 2015, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+package org.graalvm.compiler.hotspot.aarch64;
+
+import static jdk.vm.ci.aarch64.AArch64.zr;
+import static jdk.vm.ci.code.ValueUtil.asRegister;
+import static jdk.vm.ci.code.ValueUtil.isRegister;
+import static org.graalvm.compiler.lir.LIRInstruction.OperandFlag.HINT;
+import static org.graalvm.compiler.lir.LIRInstruction.OperandFlag.ILLEGAL;
+import static org.graalvm.compiler.lir.LIRInstruction.OperandFlag.REG;
+import static org.graalvm.compiler.lir.LIRInstruction.OperandFlag.STACK;
+
+import org.graalvm.compiler.asm.Label;
+import org.graalvm.compiler.asm.aarch64.AArch64Assembler;
+import org.graalvm.compiler.asm.aarch64.AArch64MacroAssembler;
+import org.graalvm.compiler.core.common.CompressEncoding;
+import org.graalvm.compiler.lir.LIRInstructionClass;
+import org.graalvm.compiler.lir.StandardOp.LoadConstantOp;
+import org.graalvm.compiler.lir.aarch64.AArch64LIRInstruction;
+import org.graalvm.compiler.lir.asm.CompilationResultBuilder;
+
+import jdk.vm.ci.code.Register;
+import jdk.vm.ci.hotspot.HotSpotConstant;
+import jdk.vm.ci.meta.AllocatableValue;
+import jdk.vm.ci.meta.Constant;
+
+public class AArch64HotSpotMove {
+
+    public static class LoadHotSpotObjectConstantInline extends AArch64LIRInstruction implements LoadConstantOp {
+        public static final LIRInstructionClass<LoadHotSpotObjectConstantInline> TYPE = LIRInstructionClass.create(LoadHotSpotObjectConstantInline.class);
+
+        private HotSpotConstant constant;
+        @Def({REG, STACK}) AllocatableValue result;
+
+        public LoadHotSpotObjectConstantInline(HotSpotConstant constant, AllocatableValue result) {
+            super(TYPE);
+            this.constant = constant;
+            this.result = result;
+        }
+
+        @Override
+        protected void emitCode(CompilationResultBuilder crb, AArch64MacroAssembler masm) {
+            crb.recordInlineDataInCode(constant);
+            if (constant.isCompressed()) {
+                // masm.forceMov(asRegister(result), 0);
+                masm.movNarrowAddress(asRegister(result), 0);
+            } else {
+                masm.movNativeAddress(asRegister(result), 0);
+            }
+        }
+
+        @Override
+        public AllocatableValue getResult() {
+            return result;
+        }
+
+        @Override
+        public Constant getConstant() {
+            return constant;
+        }
+    }
+
+    /**
+     * Compresses a 8-byte pointer as a 4-byte int.
+     */
+    public static class CompressPointer extends AArch64LIRInstruction {
+        public static final LIRInstructionClass<CompressPointer> TYPE = LIRInstructionClass.create(CompressPointer.class);
+
+        private final CompressEncoding encoding;
+        private final boolean nonNull;
+
+        @Def({REG, HINT}) protected AllocatableValue result;
+        @Use({REG}) protected AllocatableValue input;
+        @Alive({REG, ILLEGAL}) protected AllocatableValue baseRegister;
+
+        public CompressPointer(AllocatableValue result, AllocatableValue input, AllocatableValue baseRegister, CompressEncoding encoding, boolean nonNull) {
+            super(TYPE);
+            this.result = result;
+            this.input = input;
+            this.baseRegister = baseRegister;
+            this.encoding = encoding;
+            this.nonNull = nonNull;
+        }
+
+        @Override
+        public void emitCode(CompilationResultBuilder crb, AArch64MacroAssembler masm) {
+            Register resultRegister = asRegister(result);
+            Register ptr = asRegister(input);
+            Register base = (isRegister(baseRegister) ? asRegister(baseRegister) : zr);
+            // result = (ptr - base) >> shift
+            if (!encoding.hasBase()) {
+                if (encoding.hasShift()) {
+                    masm.lshr(64, resultRegister, ptr, encoding.getShift());
+                } else {
+                    masm.movx(resultRegister, ptr);
+                }
+            } else if (nonNull) {
+                masm.sub(64, resultRegister, ptr, base);
+                if (encoding.hasShift()) {
+                    masm.shl(64, resultRegister, resultRegister, encoding.getShift());
+                }
+            } else {
+                // if ptr is null it still has to be null after compression
+                masm.cmp(64, ptr, 0);
+                masm.cmov(64, resultRegister, ptr, base, AArch64Assembler.ConditionFlag.NE);
+                masm.sub(64, resultRegister, resultRegister, base);
+                if (encoding.hasShift()) {
+                    masm.lshr(64, resultRegister, resultRegister, encoding.getShift());
+                }
+            }
+        }
+    }
+
+    /**
+     * Decompresses a 4-byte offset into an actual pointer.
+     */
+    public static class UncompressPointer extends AArch64LIRInstruction {
+        public static final LIRInstructionClass<UncompressPointer> TYPE = LIRInstructionClass.create(UncompressPointer.class);
+
+        private final CompressEncoding encoding;
+        private final boolean nonNull;
+
+        @Def({REG}) protected AllocatableValue result;
+        @Use({REG}) protected AllocatableValue input;
+        @Alive({REG, ILLEGAL}) protected AllocatableValue baseRegister;
+
+        public UncompressPointer(AllocatableValue result, AllocatableValue input, AllocatableValue baseRegister, CompressEncoding encoding, boolean nonNull) {
+            super(TYPE);
+            this.result = result;
+            this.input = input;
+            this.baseRegister = baseRegister;
+            this.encoding = encoding;
+            this.nonNull = nonNull;
+        }
+
+        @Override
+        public void emitCode(CompilationResultBuilder crb, AArch64MacroAssembler masm) {
+            Register ptr = asRegister(input);
+            Register resultRegister = asRegister(result);
+            Register base = (isRegister(baseRegister) ? asRegister(baseRegister) : zr);
+            // result = base + (ptr << shift)
+            if (nonNull) {
+                masm.add(64, resultRegister, base, ptr, AArch64Assembler.ShiftType.LSL, encoding.getShift());
+            } else if (!encoding.hasBase()) {
+                masm.add(64, resultRegister, zr, ptr, AArch64Assembler.ShiftType.LSL, encoding.getShift());
+            } else {
+                // if ptr is null it has to be null after decompression
+                Label done = new Label();
+                if (!resultRegister.equals(ptr)) {
+                    masm.mov(32, resultRegister, ptr);
+                }
+                masm.cbz(32, resultRegister, done);
+                masm.add(64, resultRegister, base, resultRegister, AArch64Assembler.ShiftType.LSL, encoding.getShift());
+                masm.bind(done);
+            }
+        }
+    }
+
+    //
+    // private static void decompressPointer(CompilationResultBuilder crb, ARMv8MacroAssembler masm,
+    // Register result,
+    // Register ptr, long base, int shift, int alignment) {
+    // assert base != 0 || shift == 0 || alignment == shift;
+    // // result = heapBase + ptr << alignment
+    // Register heapBase = ARMv8.heapBaseRegister;
+    // // if result == 0, we make sure that it will still be 0 at the end, so that it traps when
+    // // loading storing a value.
+    // masm.cmp(32, ptr, 0);
+    // masm.add(64, result, heapBase, ptr, ARMv8Assembler.ExtendType.UXTX, alignment);
+    // masm.cmov(64, result, result, ARMv8.zr, ARMv8Assembler.ConditionFlag.NE);
+    // }
+
+    public static void decodeKlassPointer(AArch64MacroAssembler masm, Register result, Register ptr, Register klassBase, CompressEncoding encoding) {
+        // result = klassBase + ptr << shift
+        if (encoding.hasShift() || encoding.hasBase()) {
+            masm.add(64, result, klassBase, ptr, AArch64Assembler.ExtendType.UXTX, encoding.getShift());
+        }
+    }
+
+}
