@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) 2015, 2017, Oracle and/or its affiliates. All rights reserved.
+ * ORACLE PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+/**
+ * Provides stream and URI specific transformation classes.
+ *
+ * <p>
+ * The {@link javax.xml.transform.stream.StreamSource} class
+ * provides methods for specifying {@link java.io.InputStream} input,
+ * {@link java.io.Reader} input, and URL input in the form of strings. Even
+ * if an input stream or reader is specified as the source,
+ * {@link javax.xml.transform.stream.StreamSource#setSystemId} should still
+ * be called, so that the transformer can know from where it should resolve
+ * relative URIs. The public identifier is always optional: if the application
+ * writer includes one, it will be provided as part of the
+ * {@link javax.xml.transform.SourceLocator} information.
+ * <p>
+ * The {@link javax.xml.transform.stream.StreamResult} class
+ * provides methods for specifying {@link java.io.OutputStream},
+ * {@link java.io.Writer}, or an output system ID, as the output of the
+ * transformation result.
+ * <p>
+ * Normally streams should be used rather than readers or writers, for
+ * both the Source and Result, since readers and writers already have the encoding
+ * established to and from the internal Unicode format. However, there are times
+ * when it is useful to write to a character stream, such as when using a
+ * StringWriter in order to write to a String, or in the case of reading source
+ * XML from a StringReader.
+ *
+ *
+ * @since 1.5
+ */
+
+package javax.xml.transform.stream;
