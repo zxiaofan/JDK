@@ -17,7 +17,8 @@ JDK源码重新打包，支持调试JDk源码时显示变量的值：
 -  JDK源码【11】，新增JDK11.0.2（2019-03-25），下载地址：https://www.oracle.com/technetwork/java/javase/downloads/jdk11-downloads-5066655.html    
 -  JDK源码【12】，新增JDK12（2019-03-25），下载地址：https://www.oracle.com/technetwork/java/javase/downloads/jdk12-downloads-5295953.html    
 -  JDK源码【13】，新增JDK13（2019-09-28），下载地址：http://jdk.java.net/13/    
--  JDK源码【14】，新增JDK13（2019-11-24），下载地址：http://jdk.java.net/14/    
+-  JDK源码【14】，新增JDK14（2019-11-24），下载地址：http://jdk.java.net/14/    
+-  JDK源码【14】，新增JDK14-GA（2020-03-29），下载地址：http://jdk.java.net/14/    
 **JDK14 Features**    
    - **JEPs proposed to target JDK 14	review ends**   
 305:	Pattern Matching for instanceof (Preview)	2019/11/25    
