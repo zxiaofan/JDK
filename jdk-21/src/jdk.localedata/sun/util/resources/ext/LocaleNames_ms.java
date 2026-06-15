@@ -1,0 +1,57 @@
+package sun.util.resources.ext;
+
+import java.util.ListResourceBundle;
+
+public final class LocaleNames_ms extends sun.util.resources.LocaleNamesBundle {
+    protected final Object[][] getContents() {
+        return new Object[][] {
+            { "AE", "Emiriah Arab Bersatu" },
+            { "AG", "Antigua dan Barbuda" },
+            { "BA", "Bosnia dan Herzegovina" },
+            { "CA", "Kanada" },
+            { "CC", "Kepulauan Cocos (Keeling)" },
+            { "CF", "Republik Afrika Tengah" },
+            { "CI", "Cote d\u2019Ivoire" },
+            { "DE", "Jerman" },
+            { "DO", "Republik Dominica" },
+            { "EG", "Mesir" },
+            { "EH", "Sahara Barat" },
+            { "ES", "Sepanyol" },
+            { "FR", "Perancis" },
+            { "GS", "Kepulauan Georgia Selatan & Sandwich Selatan" },
+            { "GW", "Guinea Bissau" },
+            { "HM", "Kepulauan Heard & McDonald" },
+            { "IT", "Itali" },
+            { "JP", "Jepun" },
+            { "KH", "Kemboja" },
+            { "KN", "Saint Kitts dan Nevis" },
+            { "KP", "Korea Utara" },
+            { "KR", "Korea Selatan" },
+            { "LB", "Lubnan" },
+            { "MA", "Maghribi" },
+            { "MG", "Madagaskar" },
+            { "MH", "Kepulauan Marshall" },
+            { "MO", "Macau SAR China" },
+            { "NL", "Belanda" },
+            { "PH", "Filipina" },
+            { "PM", "Saint Pierre dan Miquelon" },
+            { "PS", "Wilayah Palestin" },
+            { "RE", "Reunion" },
+            { "SA", "Arab Saudi" },
+            { "SB", "Kepulauan Solomon" },
+            { "SG", "Singapura" },
+            { "SJ", "Svalbard dan Jan Mayen" },
+            { "SR", "Surinam" },
+            { "ST", "Sao Tome dan Principe" },
+            { "TC", "Kepulauan Turks dan Caicos" },
+            { "TR", "Turki" },
+            { "TT", "Trinidad dan Tobago" },
+            { "US", "Amerika Syarikat" },
+            { "VC", "Saint Vincent dan Grenadines" },
+            { "WF", "Wallis dan Futuna" },
+            { "YE", "Yaman" },
+            { "ZA", "Afrika Selatan" },
+            { "ms", "Melayu" },
+        };
+    }
+}
